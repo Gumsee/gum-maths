@@ -14,3 +14,14 @@ message(STATUS "GumMaths: CXXFLAGS: ${CMAKE_CXX_FLAGS}")
 file(GLOB_RECURSE SRC "./*.cpp")
 
 add_library(GumMaths STATIC ${SRC})
+
+file(GLOB_RECURSE HEADERS "./*.h")
+install(
+	FILES ${HEADERS} 
+	DESTINATION ${GUM_INSTALLDIR}/Maths/
+)
+
+install(
+	FILES "./gum-maths.h"
+	DESTINATION ${GUM_INSTALLDIR}/
+)
