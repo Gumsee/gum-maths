@@ -24,14 +24,6 @@ namespace Maths
     float distance(float a, float b)          { return std::abs(a - b); }
     float mix(float a, float b, float f)      { return a * (1 - f) + b * f; }
 
-
-    float clamp(float &var, float min, float max)
-    {
-        if(var < min) { var = min; }
-        if(var > max) { var = max; }
-        return var;
-    }
-
     float randf(float from, float to)
     {
         float randval = (float)rand() / (float)RAND_MAX;

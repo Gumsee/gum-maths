@@ -20,7 +20,15 @@ namespace Maths
     extern float tandeg(float deg);
 
     //Math Functions
-    extern float clamp(float &var, float min, float max);
+    template<typename T>
+    static T clamp(T &var, const T min, const T max)
+    {   
+        static_assert(std::is_arithmetic<T>::value, "Maths::clamp: T must be numeric");
+        
+        if(var < min) { var = min; }
+        if(var > max) { var = max; }
+        return var;
+    }
     extern float mix(float a, float b, float f);
     extern float randf(float from, float to);
     extern float noise(int seed);
