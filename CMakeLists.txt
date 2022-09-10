@@ -24,6 +24,7 @@ endif()
 
 
 #add_definitions(-DDEBUG)
+add_definitions(-DCHECK_GL_ERRORS)
 
 
 

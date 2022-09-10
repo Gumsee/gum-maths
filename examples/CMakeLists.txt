@@ -8,11 +8,14 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0") #Optimization
 
 message(STATUS "Examples: CXXFLAGS: ${CMAKE_CXX_FLAGS}")
 
-set(GUM_LIBRARIES ${CMAKE_PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
+list(APPEND GUM_LIBRARIES ${CMAKE_PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT} pthread)
+
 
 
 include_directories(${CMAKE_SOURCE_DIR}/src/)
 
+
+link_directories(${CMAKE_BINARY_DIR}/src/)
 
 add_definitions(-DEXAMPLES_PATH=\"${CMAKE_SOURCE_DIR}/examples\")
 
@@ -21,5 +24,5 @@ set(EXAMPLE_FILE_LIST ColorConversion Matrices Vectors)
 foreach(EXAMPLE ${EXAMPLE_FILE_LIST})
     message(STATUS "Adding target ${EXAMPLE}")
     add_executable(Example_${EXAMPLE} "./${EXAMPLE}.cpp")
-    target_link_libraries(Example_${EXAMPLE} ${GUM_LIBRARIES})
+    target_link_libraries(Example_${EXAMPLE} "${GUM_LIBRARIES}")
 endforeach()

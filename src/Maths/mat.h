@@ -166,11 +166,11 @@ struct mat
         T det = 0;
         if(N == M)
         {
-            for(unsigned int i = 0; i < N; i++)
+            for(int i = 0; i < (int)N; i++)
             {
                 T addRow = 1;
                 T subRow = 1;
-                for(unsigned int j = 0; j < N; j++)
+                for(int j = 0; j < (int)N; j++)
                 {
                     int k = j + i;
                     k = (k >= (int)N ? k - N : k);
@@ -178,7 +178,7 @@ struct mat
                 }
                 det += addRow;
 
-                for(unsigned int j = N - 1; j >= 0; j--)
+                for(int j = (int)N - 1; j >= 0; j--)
                 {
                     int k = (N - j) + i;
                     k = (k >= (int)N ? k - N : k);
