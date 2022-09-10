@@ -134,7 +134,7 @@
     template<typename TT> \
     static float dot(tvec<TT, size> a, tvec<TT, size> b)  \
     { \
-        float ret; \
+        float ret = 0.0f; \
         for(unsigned int i = 0; i < size; i++) \
             ret += a[i] * b[i]; \
         return ret;  \

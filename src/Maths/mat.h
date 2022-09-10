@@ -35,7 +35,7 @@ struct mat
     explicit mat(Args&&... values) 
     {
         //static_assert(is_all_same<T, values...>::value, "Arguments must be int.");
-        T args[] = { values... };
+        T args[] = { static_cast<T>(values)... };
         memcpy(&v[0], &args[0], M * N * sizeof(T));
         this->operator=(transpose(*this));
     }
@@ -173,7 +173,7 @@ struct mat
                 for(unsigned int j = 0; j < N; j++)
                 {
                     int k = j + i;
-                    k = (k >= N ? k - N : k);
+                    k = (k >= (int)N ? k - N : k);
                     addRow *= v[k][j];
                 }
                 det += addRow;
@@ -181,7 +181,7 @@ struct mat
                 for(unsigned int j = N - 1; j >= 0; j--)
                 {
                     int k = (N - j) + i;
-                    k = (k >= N ? k - N : k);
+                    k = (k >= (int)N ? k - N : k);
                     subRow *= v[k][j];
                 }
                 det -= subRow;
