@@ -1,6 +1,7 @@
 #include "quat.h"
 #include <math.h>
 #include "mat.h"
+#include "Constants.h"
 
 quat::quat()                                       : x(0),     y(0),     z(0),     w(0)  {}
 quat::quat(float f)                                : x(f),     y(f),     z(f),     w(f)  {}
@@ -74,14 +75,14 @@ quat quat::normalize(quat q)
 
 quat quat::rotateAround(float angle, vec3 up)
 {
-    float rad = angle * M_PI / 180.0f;
+    float rad = angle * GUM_PI / 180.0f;
     float s = std::sin(rad * 0.5f);
     return quat(up * s, std::cos(rad * 0.5f));
 }
 
 quat quat::toQuaternion(vec3 anglesDeg)
 {
-    vec3 rad = anglesDeg * M_PI / 180.0f;
+    vec3 rad = anglesDeg * GUM_PI / 180.0f;
     // Abbreviations for the various angular functions
     double cy = std::cos(rad.z * 0.5);
     double sy = std::sin(rad.z * 0.5);
@@ -110,7 +111,7 @@ vec3 quat::toEuler(quat q)
     // pitch (y-axis rotation)
     double sinp = 2 * (q.w * q.y - q.z * q.x);
     if (std::abs(sinp) >= 1)
-        euler.y = std::copysign(M_PI / 2, sinp); // use 90 degrees if out of range
+        euler.y = std::copysign(GUM_PI / 2, sinp); // use 90 degrees if out of range
     else
         euler.y = std::asin(sinp);
 
@@ -119,7 +120,7 @@ vec3 quat::toEuler(quat q)
     double cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z);
     euler.z = std::atan2(siny_cosp, cosy_cosp);
 
-    return euler * 180 / M_PI;
+    return euler * 180 / GUM_PI;
 }
 
 

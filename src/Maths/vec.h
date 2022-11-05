@@ -82,7 +82,7 @@
     { \
         tvec<T, size> ret; \
         for(unsigned int i = 0; i < size; i++) \
-            ret[i] = (vvec.v[i] * 180.f) / M_PI; \
+            ret[i] = (vvec.v[i] * 180.f) / GUM_PI; \
         return ret; \
     }
 
@@ -92,7 +92,7 @@
     { \
         tvec<T, size> ret; \
         for(unsigned int i = 0; i < size; i++) \
-            ret[i] = vvec.v[i] * M_PI / 180.0f; \
+            ret[i] = vvec.v[i] * GUM_PI / 180.0f; \
         return ret; \
     }
 
