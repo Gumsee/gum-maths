@@ -14,6 +14,7 @@ if "%ARG%"=="install" (
 )
 
 cmake -DCMAKE_BUILD_TYPE=%CONFIG% %ROOTDIR%
+cmake --build . --target ALL_BUILD
 
 cd "%ROOTDIR%"
 copy "%BUILDDIR%\compile_commands.json" .

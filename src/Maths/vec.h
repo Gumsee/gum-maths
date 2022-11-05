@@ -215,15 +215,15 @@ struct tvec<T, 4>
 
 typedef tvec<float,   2>   vec2;
 typedef tvec<int,     2>  ivec2;
-typedef tvec<uint,    2> uivec2;
+typedef tvec<unsigned int,    2> uivec2;
 typedef tvec<double,  2>  dvec2;
 typedef tvec<float,   3>   vec3;
 typedef tvec<int,     3>  ivec3;
-typedef tvec<uint,    3> uivec3;
+typedef tvec<unsigned int,    3> uivec3;
 typedef tvec<double,  3>  dvec3;
 typedef tvec<float,   4>   vec4;
 typedef tvec<int,     4>  ivec4;
-typedef tvec<uint,    4> uivec4;
+typedef tvec<unsigned int,    4> uivec4;
 typedef tvec<double,  4>  dvec4;
 
 //#pragma warning( pop )
