@@ -7,7 +7,7 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -g3 -Wall -fdiagnostics-colo
 if(DEFINED GUM_OS_LINUX)
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wno-unused-parameter -Wno-reorder -Wno-pedantic")
 elseif(DEFINED GUM_OS_WINDOWS)
-
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /no-Qspectre")
 endif()
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0") #Optimization
 
