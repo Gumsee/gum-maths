@@ -56,6 +56,7 @@
     \
     T& operator[](unsigned int& index) { return v[index]; } \
     const T& operator[](unsigned int& index) const { return v[index]; }
+    /*std::ostream& operator<<(std::ostream& os, const T& obj) { return os << obj.toString(); }*/
 
 #define VEC_TEMPLATE_LENGTH_FUNC(size) \
     float length() \
@@ -155,7 +156,7 @@
     }
 
 #define VEC_TEMPLATE_TO_STRING_FUNC(size) \
-    std::string toString(std::string prefix = "vec"+std::to_string(size)+"(", std::string suffix = ")", std::string delimiter = ", ") \
+    std::string toString(std::string prefix = "vec"+std::to_string(size)+"(", std::string suffix = ")", std::string delimiter = ", ") const \
     {  \
         std::string str = prefix; \
         for(unsigned int i = 0; i < size; i++) \
@@ -212,15 +213,18 @@ struct tvec<T, 4>
     VEC_TEMPLATE(4, struct{ T x, y, z, w; }; struct{ T r, g, b, a; });
 };
 
-typedef tvec<float,  2>  vec2;
-typedef tvec<int,    2> ivec2;
-typedef tvec<double, 2> dvec2;
-typedef tvec<float,  3>  vec3;
-typedef tvec<int,    3> ivec3;
-typedef tvec<double, 3> dvec3;
-typedef tvec<float,  4>  vec4;
-typedef tvec<int,    4> ivec4;
-typedef tvec<double, 4> dvec4;
+typedef tvec<float,   2>   vec2;
+typedef tvec<int,     2>  ivec2;
+typedef tvec<uint,    2> uivec2;
+typedef tvec<double,  2>  dvec2;
+typedef tvec<float,   3>   vec3;
+typedef tvec<int,     3>  ivec3;
+typedef tvec<uint,    3> uivec3;
+typedef tvec<double,  3>  dvec3;
+typedef tvec<float,   4>   vec4;
+typedef tvec<int,     4>  ivec4;
+typedef tvec<uint,    4> uivec4;
+typedef tvec<double,  4>  dvec4;
 
 //#pragma warning( pop )
 #pragma GCC diagnostic pop
