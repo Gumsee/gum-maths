@@ -1,5 +1,7 @@
 cmake_minimum_required (VERSION 3.0)
 project(GumMaths)
+cmake_policy(SET CMP0072 NEW)
+
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
@@ -11,6 +13,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     add_definitions(-DGUM_OS_WINDOWS)
     set(GUM_OS_WINDOWS true)
+
+    set(CMAKE_INSTALL_PREFIX "/Program Files (x86)/Gumlib/")
 
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     add_definitions(-DGUM_OS_MACOS)
