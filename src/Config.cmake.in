@@ -7,9 +7,9 @@ check_required_components(@CMAKE_PROJECT_NAME@)
 set(GUMMATHS_INCLUDE_DIRS   "@CMAKE_INSTALL_FULL_INCLUDEDIR@/@CMAKE_PROJECT_NAME@" )
 find_library(GUMMATHS_LIBRARIES NAMES @CMAKE_PROJECT_NAME@
     PATHS
-    /usr/lib
-    /usr/local/lib
-    @CMAKE_INSTALL_FULL_LIBDIR@
+    "/usr/lib"
+    "/usr/local/lib"
+    "@CMAKE_INSTALL_FULL_LIBDIR@"
 )
 
 set(GUMMATHS_FOUND TRUE)
