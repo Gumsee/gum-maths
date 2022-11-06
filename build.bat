@@ -9,12 +9,12 @@ mkdir "%BUILDDIR%"
 cd "%BUILDDIR%"
 
 if "%ARG%"=="install" (
-    cmake --build . --target INSTALL --config RELEASE
+    cmake --build . --target INSTALL --config %CONFIG%
     exit 0
 )
 
 cmake -DCMAKE_BUILD_TYPE=%CONFIG% %ROOTDIR%
-cmake --build . --target ALL_BUILD
+cmake --build . --target ALL_BUILD --config %CONFIG%
 
 cd "%ROOTDIR%"
 copy "%BUILDDIR%\compile_commands.json" .
