@@ -1,18 +1,3 @@
-set (CMAKE_EXPORT_COMPILE_COMMANDS 1)
-set (CMAKE_CXX_STANDARD 17)
-set (CMAKE_CXX_STANDARD_REQUIRED ON)
-set (CMAKE_CXX_EXTENSIONS ON)
-set (INSTALL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/dist/${CMAKE_BUILD_TYPE}/bin/")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -g3 -Wall -fdiagnostics-color=always")
-if(DEFINED GUM_OS_LINUX)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wno-unused-parameter -Wno-reorder -Wno-pedantic")
-elseif(DEFINED GUM_OS_WINDOWS)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /no-Qspectre")
-endif()
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0") #-Og
-
-message(STATUS "${CMAKE_PROJECT_NAME}: CXXFLAGS: ${CMAKE_CXX_FLAGS}")
-
 #
 # Source
 #
@@ -24,10 +9,8 @@ add_library(${CMAKE_PROJECT_NAME} STATIC ${SRC})
 
 include_directories(${CMAKE_SOURCE_DIR}/external/)
 
-set(CMAKE_INSTALL_FULL_INCLUDEDIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})
-set(CMAKE_INSTALL_FULL_LIBDIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
 
-message(${CMAKE_INSTALL_FULL_LIBDIR})
+
  
 
 install(
@@ -74,3 +57,4 @@ install(
 )
 
 export(PACKAGE ${CMAKE_PROJECT_NAME})
+
