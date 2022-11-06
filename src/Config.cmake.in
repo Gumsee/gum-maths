@@ -9,6 +9,7 @@ find_library(GUMMATHS_LIBRARIES NAMES @CMAKE_PROJECT_NAME@
     PATHS
     /usr/lib
     /usr/local/lib
+    @CMAKE_INSTALL_FULL_LIBDIR@
 )
 
 set(GUMMATHS_FOUND TRUE)
