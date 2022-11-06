@@ -50,4 +50,12 @@ namespace Maths
         }
         return maxval;
     }
+
+    template<typename T> 
+    static T min(T x, T y)
+    {
+        if(x > y) 
+            return y;
+        return x;
+    }
 }}
