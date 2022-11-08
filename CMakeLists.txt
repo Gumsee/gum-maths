@@ -38,6 +38,7 @@ if(DEFINED GUM_OS_LINUX)
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0") #-Og
 elseif(DEFINED GUM_OS_WINDOWS)
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall")
+    set (CMAKE_CXX_FLAGS "/JMC /permissive- /GS /W3 /Zc:wchar_t /ZI /Gm- /Od /sdl /Zc:inline /fp:precise /errorReport:prompt /WX- /Zc:forScope /Gd /MDd /FC /EHsc /nologo /diagnostics:column")
 endif()
 
 set(CMAKE_INSTALL_FULL_INCLUDEDIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})
