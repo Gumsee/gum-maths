@@ -9,7 +9,8 @@ add_library(${CMAKE_PROJECT_NAME} STATIC ${SRC})
 
 include_directories(${CMAKE_SOURCE_DIR}/external/)
 
-
+ 
+        list(APPEND GUM_LIBRARIES ${CMAKE_PROJECT_NAME})
 
  
 
