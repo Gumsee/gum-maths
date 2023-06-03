@@ -19,6 +19,10 @@ struct tbbox
 
     tvec<T, S> getPos()  { return pos; }
     tvec<T, S> getSize() { return size; }
+    tvec<T, S> getDimensions() 
+    { 
+        return tvec<T, S>::abs(pos) + tvec<T, S>::abs(size); 
+    }
 
 
     template<typename TT, int SS>

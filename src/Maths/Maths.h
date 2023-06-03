@@ -35,6 +35,8 @@ namespace Maths
     extern double lerp(double t, double a, double b);
     extern double fade(double t);
     extern float distance(float a, float b);
+    extern long factorial(int n);
+    extern double binomialCoeff(int n, int k);
 
     //Vector Operations
 
