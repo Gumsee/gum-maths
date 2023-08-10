@@ -7,7 +7,7 @@
 template<typename T, unsigned int N, unsigned int M>
 struct mat
 {
-    T v[M][N];
+    T v[M][N] = {0};
     
     mat()
     {

@@ -25,5 +25,8 @@ int main(int argc, char** argv)
 
 	printEquation(vec3_1 * vec3_2, vec3_1, "*", vec3_2);
 
+
+	std::cout << "sizeof(vec3): " << sizeof(vec3) << std::endl << std::endl;
+
 	return 0;
 };

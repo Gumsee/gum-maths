@@ -4,10 +4,12 @@
 namespace Gum {
 namespace Maths
 {
-    extern vec3 HSVToRGB(vec3 hsv);
-    extern vec3 RGBToHSV(vec3 rgb);
-    extern vec3 RGBToHSB(vec3 rgb);
-    extern vec3 HEXToRGB(std::string hex);
-    extern vec3 HEXToRGB(int hex);
-    extern std::string RGBToHEX(vec3 rgb);
+    extern rgb HSVToRGB(hsv hsv);
+    extern hsv RGBToHSV(rgb rgb);
+    extern hsv RGBToHSB(rgb rgb);
+    extern rgb HEXToRGB(std::string hex);
+    extern rgba HEXToRGBA(std::string hex);
+    extern rgba HEXToRGBA(int hex);
+    extern std::string RGBToHEX(rgb val);
+    extern std::string RGBAToHEX(rgba val);
 }}
