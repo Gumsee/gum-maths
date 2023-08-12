@@ -6,6 +6,18 @@ class color : public rgba
 {
 public:
     using rgba::rgba;
+    color(rgba col) : rgba(col) {}
+    color(hsva col)             { setHSVA(col); }
+    color(std::string hex)      { setHEX(hex); }
+
+    using rgba::operator-;
+    using rgba::operator-=;
+    using rgba::operator+;
+    using rgba::operator+=;
+    using rgba::operator/;
+    using rgba::operator/=;
+    using rgba::operator*;
+    using rgba::operator*=;
 
     //Setter
     void setHSVA(hsva val)       { rgba::operator=(rgba(Gum::Maths::HSVToRGB(val), val.a)); }

@@ -265,10 +265,10 @@ typedef tvec<int,               4>  ivec4;
 typedef tvec<unsigned int,      4> uivec4;
 typedef tvec<double,            4>  dvec4;
 typedef tvec<bool,              4>  bvec4;
-typedef tvec<unsigned short, 3, 1>    rgb;
-typedef tvec<unsigned short, 4, 1>   rgba;
-typedef tvec<unsigned short, 3, 2>    hsv;
-typedef tvec<unsigned short, 4, 2>   hsva;
+typedef tvec<unsigned short int, 3, 1>    rgb;
+typedef tvec<unsigned short int, 4, 1>   rgba;
+typedef tvec<unsigned short int, 3, 2>    hsv;
+typedef tvec<unsigned short int, 4, 2>   hsva;
 
 //#pragma warning( pop )
 #pragma GCC diagnostic pop

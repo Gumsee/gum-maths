@@ -20,8 +20,6 @@ namespace Maths
         float q = v * (1.0f - (s * ff));
         float t = v * (1.0f - (s * (1.0f - ff)));
 
-        std::cout << val.toString() << std::endl;
-
         switch((int)h) 
         { 
             case 0:  return rgb(ceil(v * 255.0f), ceil(t * 255.0f), ceil(p * 255.0f));
