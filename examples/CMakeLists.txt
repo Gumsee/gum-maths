@@ -5,7 +5,7 @@ list(APPEND GUM_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
  
         list(APPEND GUM_LIBRARIES ${PROJECT_NAME})
 
-include_directories(${CMAKE_SOURCE_DIR}/src/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../src/)
 
 
 link_directories(${CMAKE_BINARY_DIR}/src/)
