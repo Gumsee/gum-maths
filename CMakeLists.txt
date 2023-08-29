@@ -7,6 +7,8 @@ set(CMAKE_EXPORT_PACKAGE_REGISTRY TRUE)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
+option(GUMMATHS_BUILD_EXAMPLES "Should the exampleprojects be build" ON)
+
 #Set OS
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     add_definitions(-DGUM_OS_LINUX)
@@ -68,4 +70,7 @@ add_definitions(-DCHECK_GL_ERRORS)
 
 
 add_subdirectory(src)
-add_subdirectory(examples)
+if(GUMMATHS_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+    endif()
+    
