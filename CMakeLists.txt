@@ -28,6 +28,12 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set(GUM_OS_MACOS true)
     set(GUM_OS_UNIX true)
 
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Android")
+    add_definitions(-DGUM_OS_ANDROID)
+    add_definitions(-DGUM_OS_UNIX)
+    set(GUM_OS_ANDROID true)
+    set(GUM_OS_UNIX true)
+
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
     add_definitions(-DGUM_OS_BSD)
     add_definitions(-DGUM_OS_UNIX)
