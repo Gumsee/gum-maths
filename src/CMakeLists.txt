@@ -47,11 +47,11 @@ add_custom_command( #combinedtarget ALL
     VERBATIM
 )
 
-add_custom_target(combinedlibtarget ALL DEPENDS ${COMBINED_LIB})
+add_custom_target(${PROJECT_NAME}_combinedlibtarget ALL DEPENDS ${COMBINED_LIB})
 
 # Create an library target out of the library compilation result
 add_library(${PROJECT_NAME} STATIC IMPORTED GLOBAL)
-add_dependencies(${PROJECT_NAME} combinedlibtarget)
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_combinedlibtarget)
 
 # Specify where the library is and where to find the headers
 set_target_properties(${PROJECT_NAME}
