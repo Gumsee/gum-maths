@@ -1,5 +1,7 @@
 #pragma once
 #include "GumMathsClass.h"
+#include "Maths.h"
+#include <limits>
 #include <string>
 #include <cstring>
 #include <cmath>
@@ -88,6 +90,16 @@
         return ret; \
     }
 
+#define VEC_TEMPLATE_MOD_FUNC(size, type) \
+    template<typename TT, typename TTT> \
+    static tvec<T, size, type> mod(tvec<TT, size, type> vvec, tvec<TTT, size, type> vvec2) \
+    { \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = std::fmod(vvec.vals[i], vvec2.vals[i]); \
+        return ret; \
+    }
+
 #define VEC_TEMPLATE_RAD_FUNC(size, type) \
     template<typename TT> \
     static tvec<T, size, type> rad(tvec<TT, size, type> vvec) \
@@ -110,6 +122,18 @@
             else                  { ret[i] = vvec.vals[i]; } \
         } \
         return ret; \
+    }
+
+#define VEC_TEMPLATE_COMPARE_SIGNS_FUNC(size, type) \
+    template<typename TT> \
+    static bool compareSigns(tvec<TT, size, type> vvec, tvec<TT, size, type> vvec2) \
+    { \
+        for(unsigned int i = 0; i < size; i++) \
+        { \
+            if(vvec.vals[i] * vvec2.vals[i] < TT(0)) \
+                return false; \
+        } \
+        return true; \
     }
 
 #define VEC_TEMPLATE_CROSS_FUNC(size, type) \
@@ -170,11 +194,11 @@
     }
 
 #define VEC_TEMPLATE_TO_STRING_FUNC(size, type, name) \
-    std::string toString(std::string prefix = std::string(name) + "(", std::string suffix = ")", std::string delimiter = ", ") const \
+    std::string toString(std::string prefix = std::string(name) + "(", std::string suffix = ")", std::string delimiter = ", ", const unsigned short& precision = 2) const \
     {  \
         std::string str = prefix; \
         for(unsigned int i = 0; i < size; i++) \
-            str += std::to_string(vals[i]) + delimiter; \
+            str += Gum::Maths::numToString(vals[i], precision) + delimiter; \
         str = str.substr(0, str.length() - delimiter.length()); \
         str += suffix; \
         return str; \
@@ -197,7 +221,9 @@
     VEC_TEMPLATE_DEG_FUNC(size, type) \
     VEC_TEMPLATE_RAD_FUNC(size, type) \
     VEC_TEMPLATE_MIX_FUNC(size, type) \
+    VEC_TEMPLATE_MOD_FUNC(size, type) \
     VEC_TEMPLATE_DISTANCE_FUNC(size, type) \
+    VEC_TEMPLATE_COMPARE_SIGNS_FUNC(size, type) \
     VEC_TEMPLATE_TO_STRING_FUNC(size, type, name) \
     VEC_TEMPLATE_RANDOM_FUNC(size, type) \
     \
@@ -265,10 +291,10 @@ typedef tvec<int,               4>  ivec4;
 typedef tvec<unsigned int,      4> uivec4;
 typedef tvec<double,            4>  dvec4;
 typedef tvec<bool,              4>  bvec4;
-typedef tvec<unsigned short int, 3, 1>    rgb;
-typedef tvec<unsigned short int, 4, 1>   rgba;
-typedef tvec<unsigned short int, 3, 2>    hsv;
-typedef tvec<unsigned short int, 4, 2>   hsva;
+typedef tvec<float,          3, 1>    rgb;
+typedef tvec<float,          4, 1>   rgba;
+typedef tvec<float,          3, 2>    hsv;
+typedef tvec<float,          4, 2>   hsva;
 
 //#pragma warning( pop )
 #pragma GCC diagnostic pop
