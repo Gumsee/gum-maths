@@ -64,7 +64,15 @@ namespace Maths
     rgba HEXToRGBA(std::string hex)
     {
         unsigned short r, g, b, a;
-        sscanf(hex.c_str(), "#%2hx%2hx%2hx%2hx", &r, &g, &b, &a);
+        switch(hex.length())
+        {
+            case 4: sscanf(hex.c_str(), "#%2hx%2hx%2hx", &r, &g, &b); a = 255; break;
+            case 5: sscanf(hex.c_str(), "#%2hx%2hx%2hx%2hx", &r, &g, &b, &a); break;
+            case 7: sscanf(hex.c_str(), "#%2hx%2hx%2hx", &r, &g, &b); a = 255; break;
+            case 9: sscanf(hex.c_str(), "#%2hx%2hx%2hx%2hx", &r, &g, &b, &a); break;
+            default: std::cerr << "Failed to convert hex to rgba, given hex str: " << hex << std::endl;
+        }
+
         return rgba(r,g,b,a);
     }
 

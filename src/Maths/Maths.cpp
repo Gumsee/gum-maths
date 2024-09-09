@@ -13,6 +13,7 @@ namespace Maths
     double fade(double t)                     { return ((6*t - 15)*t + 10)*t*t*t; }
     float distance(float a, float b)          { return std::abs(a - b); }
     float mix(float a, float b, float f)      { return a * (1 - f) + b * f; }
+    float fract(float f)                      { return f - floor(f); }
     long factorial(int n)                     
     {
         long ret = 1;
@@ -31,4 +32,15 @@ namespace Maths
         return from + randval * (to - from);
     }
     //float noise(int seed)                     { randomGenerator.setSeed(seed); return randomGenerator.nextFloat(); }
+
+    float smoothstep(float edge0, float edge1, float x)
+    {
+        x = clamp((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
+        return x * x * (3.0f - 2.0f * x);
+    }
+    
+    float inversesqrt(float x)
+    {
+        return 1.0f / sqrt(x);
+    }
 }}

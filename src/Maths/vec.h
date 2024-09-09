@@ -38,27 +38,40 @@
 
 #define VEC_TEMPLATE_OPERATORS(size, type) \
     template<typename TT> void operator+=(const tvec<TT, size, type>& vvec)                      { for(unsigned int i = 0; i < size; i++) vals[i] += vvec.vals[i]; } \
+    template<typename TT> void operator+=(const TT& f)                                           { for(unsigned int i = 0; i < size; i++) vals[i] += f; } \
     template<typename TT> void operator-=(const tvec<TT, size, type>& vvec)                      { for(unsigned int i = 0; i < size; i++) vals[i] -= vvec.vals[i]; } \
+    template<typename TT> void operator-=(const TT& f)                                           { for(unsigned int i = 0; i < size; i++) vals[i] -= f; } \
     template<typename TT> void operator/=(const tvec<TT, size, type>& vvec)                      { for(unsigned int i = 0; i < size; i++) vals[i] /= vvec.vals[i]; } \
+    template<typename TT> void operator/=(const TT& f)                                           { for(unsigned int i = 0; i < size; i++) vals[i] /= f; } \
     template<typename TT> void operator*=(const tvec<TT, size, type>& vvec)                      { for(unsigned int i = 0; i < size; i++) vals[i] *= vvec.vals[i]; } \
     template<typename TT> void operator*=(const TT& f)                                           { for(unsigned int i = 0; i < size; i++) vals[i] *= f; } \
+    template<typename TT> void operator^=(const tvec<TT, size, type>& vvec)                      { for(unsigned int i = 0; i < size; i++) vals[i] ^= vvec.vals[i]; } \
+    template<typename TT> void operator^=(const TT& f)                                           { for(unsigned int i = 0; i < size; i++) vals[i] ^= f; } \
     template<typename TT> bool operator!=(const tvec<TT, size, type>& vvec) const                { for(unsigned int i = 0; i < size; i++) if(vals[i] != vvec.vals[i]) { return true; } return false; } \
     template<typename TT> bool operator==(const tvec<TT, size, type>& vvec) const                { for(unsigned int i = 0; i < size; i++) if(vals[i] == vvec.vals[i]) { return true; } return false; } \
     template<typename TT> bool operator==(const TT& f) const                                     { for(unsigned int i = 0; i < size; i++) if(vals[i] == f)            { return true; } return false; } \
     \
-    template<typename TT> tvec<T, size, type>  operator+(const tvec<TT, size, type>& vvec) const { tvec<T, size, type>  nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] + vvec.vals[i]; return nvec; } \
-    template<typename TT> tvec<T, size, type>  operator-(const tvec<TT, size, type>& vvec) const { tvec<T, size, type>  nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] - vvec.vals[i]; return nvec; } \
-    template<typename TT> tvec<T, size, type>  operator/(const tvec<TT, size, type>& vvec) const { tvec<T, size, type>  nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] / vvec.vals[i]; return nvec; } \
-    template<typename TT> tvec<T, size, type>  operator*(const tvec<TT, size, type>& vvec) const { tvec<T, size, type>  nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] * vvec.vals[i]; return nvec; } \
-    template<typename TT> tvec<T, size, type>  operator/(const TT& f) const                      { tvec<T, size, type>  nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] / f;            return nvec; } \
-    template<typename TT> tvec<TT, size, type> operator*(const TT& f) const                      { tvec<TT, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] * f;            return nvec; } \
+    template<typename TT> tvec<T, size, type> operator+(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] + vvec.vals[i]; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator-(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] - vvec.vals[i]; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator/(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] / vvec.vals[i]; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator*(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] * vvec.vals[i]; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator^(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] ^ vvec.vals[i]; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator<<(const tvec<TT, size, type>& vvec) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] << vvec.vals[i]; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator>>(const tvec<TT, size, type>& vvec) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] >> vvec.vals[i]; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator/(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] / f;            return nvec; } \
+    template<typename TT> tvec<T, size, type> operator*(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] * f;            return nvec; } \
+    template<typename TT> tvec<T, size, type> operator+(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] + f;            return nvec; } \
+    template<typename TT> tvec<T, size, type> operator-(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] - f;            return nvec; } \
+    template<typename TT> tvec<T, size, type> operator^(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] ^ f;            return nvec; } \
+    template<typename TT> tvec<T, size, type> operator<<(const TT& f) const                      { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] << f;           return nvec; } \
+    template<typename TT> tvec<T, size, type> operator>>(const TT& f) const                      { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] >> f;           return nvec; } \
     template<typename TT, unsigned int SS>  \
                           void           operator=(const tvec<TT, SS, type>& vvec)         { for(unsigned int i = 0; i < (size < SS ? size : SS); i++) vals[i] = (T)vvec.vals[i]; } \
                           /*void    operator=(tvec<T, size, type> vvec)        { for(unsigned int i = 0; i < size; i++) vals[i] = vvec.vals[i]; }*/ \
     \
     T& operator[](unsigned int& index)             { return vals[index]; } \
     const T& operator[](unsigned int& index) const { return vals[index]; } \
-    const T& at(unsigned int& index) const         { return vals[index]; }
+    const T& at(unsigned int index) const          { return vals[index]; }
     /*std::ostream& operator<<(std::ostream& os, const T& obj) { return os << obj.toString(); }*/
 
 #define VEC_TEMPLATE_LENGTH_FUNC(size, type) \
@@ -67,7 +80,7 @@
         T sum = 0; \
         for(unsigned int i = 0; i < size; i++) \
             sum += vals[i] * vals[i]; \
-        return (float)sqrt(sum); \
+        return (float)::sqrt(sum); \
     }
 
 #define VEC_TEMPLATE_ABS_FUNC(size, type) \
@@ -77,6 +90,16 @@
         tvec<T, size, type> ret; \
         for(unsigned int i = 0; i < size; i++) \
             ret[i] = std::abs(vvec.vals[i]); \
+        return ret; \
+    }
+
+#define VEC_TEMPLATE_POW_FUNC(size, type) \
+    template<typename TT> \
+    static tvec<T, size, type> pow(tvec<TT, size, type> a, const float& p) \
+    { \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = std::pow(a.vals[i], p); \
         return ret; \
     }
 
@@ -92,11 +115,28 @@
 
 #define VEC_TEMPLATE_MOD_FUNC(size, type) \
     template<typename TT, typename TTT> \
-    static tvec<T, size, type> mod(tvec<TT, size, type> vvec, tvec<TTT, size, type> vvec2) \
+    static tvec<T, size, type> mod(tvec<TT, size, type> a, tvec<TTT, size, type> b) \
     { \
         tvec<T, size, type> ret; \
         for(unsigned int i = 0; i < size; i++) \
-            ret[i] = std::fmod(vvec.vals[i], vvec2.vals[i]); \
+        { \
+            ret[i] = a[i] - b[i] * std::floor(a[i] / b[i]); \
+        } \
+        return ret; \
+    }
+//ret[i] = std::fmod(vvec.vals[i], vvec2.vals[i]);
+//if(ret[i] < 0)
+//    ret[i] += vvec2.vals[i];
+
+#define VEC_TEMPLATE_STEP_FUNC(size, type) \
+    template<typename TT, typename TTT> \
+    static tvec<T, size, type> step(tvec<TT, size, type> edge, tvec<TTT, size, type> x) \
+    { \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+        { \
+            ret[i] = x[i] < edge[i] ? 0.0f : 1.0f; \
+        } \
         return ret; \
     }
 
@@ -169,6 +209,100 @@
         return ret; \
     }
 
+#define VEC_TEMPLATE_MIN_FUNC(size, type) \
+    template<typename TT>  \
+    static tvec<T, size, type> min(tvec<TT, size, type> a, tvec<TT, size, type> b) \
+    {  \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+        { \
+            ret[i] = a[i] < b[i] ? a[i] : b[i]; \
+        } \
+        return ret; \
+    }
+
+#define VEC_TEMPLATE_MAX_FUNC(size, type) \
+    template<typename TT>  \
+    static tvec<T, size, type> max(tvec<TT, size, type> a, tvec<TT, size, type> b) \
+    {  \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+        { \
+            ret[i] = a[i] > b[i] ? a[i] : b[i]; \
+        } \
+        return ret; \
+    }
+
+#define VEC_TEMPLATE_FRACT_FUNC(size, type) \
+    template<typename TT>  \
+    static tvec<T, size, type> fract(tvec<TT, size, type> from) \
+    {  \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = from[i] - std::floor(from[i]); \
+        return ret; \
+    }
+
+#define VEC_TEMPLATE_FLOOR_FUNC(size, type) \
+    template<typename TT>  \
+    static tvec<T, size, type> floor(tvec<TT, size, type> from) \
+    {  \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = std::floor(from[i]); \
+        return ret; \
+    }
+
+#define VEC_TEMPLATE_SIN_FUNC(size, type) \
+    template<typename TT>  \
+    static tvec<T, size, type> sin(tvec<TT, size, type> vec) \
+    {  \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = (T)::sin(vec[i]); \
+        return ret; \
+    }
+
+#define VEC_TEMPLATE_COS_FUNC(size, type) \
+    template<typename TT>  \
+    static tvec<T, size, type> cos(tvec<TT, size, type> vec) \
+    {  \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = (T)::cos(vec[i]); \
+        return ret; \
+    }
+
+#define VEC_TEMPLATE_TAN_FUNC(size, type) \
+    template<typename TT>  \
+    static tvec<T, size, type> tan(tvec<TT, size, type> vec) \
+    {  \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = (T)::tan(vec[i]); \
+        return ret; \
+    }
+
+#define VEC_TEMPLATE_SQRT_FUNC(size, type) \
+    template<typename TT>  \
+    static tvec<T, size, type> sqrt(tvec<TT, size, type> vec) \
+    {  \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = (T)::sqrt(vec[i]); \
+        return ret; \
+    }
+
+#define VEC_TEMPLATE_INVSQRT_FUNC(size, type) \
+    template<typename TT>  \
+    static tvec<T, size, type> inversesqrt(tvec<TT, size, type> vec) \
+    {  \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = 1.0f / (T)::sqrt(vec[i]); \
+        return ret; \
+    }
+
 #define VEC_TEMPLATE_DOT_FUNC(size, type) \
     template<typename TT> \
     static float dot(tvec<TT, size, type> a, tvec<TT, size, type> b)  \
@@ -184,6 +318,15 @@
     static tvec<TT, size, type> mix(tvec<TT, size, type> a, tvec<TT, size, type> b, float factor)  \
     {  \
         return a * (1 - factor) + b * factor;  \
+    } \
+    \
+    template<typename TT> \
+    static tvec<TT, size, type> mix(tvec<TT, size, type> a, tvec<TT, size, type> b, tvec<float, size, type> factor)  \
+    {  \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = a[i] * (1 - factor[i]) + b[i] * factor[i]; \
+        return ret; \
     }
 
 #define VEC_TEMPLATE_DISTANCE_FUNC(size, type) \
@@ -202,7 +345,8 @@
         str = str.substr(0, str.length() - delimiter.length()); \
         str += suffix; \
         return str; \
-    }
+    } \
+    operator std::string() const { return toString(); }
 
 #define VEC_TEMPLATE(size, name, type, ...) \
     union { \
@@ -214,6 +358,8 @@
     VEC_TEMPLATE_OPERATORS(size, type) \
     VEC_TEMPLATE_LENGTH_FUNC(size, type) \
     VEC_TEMPLATE_ABS_FUNC(size, type) \
+    VEC_TEMPLATE_STEP_FUNC(size, type) \
+    VEC_TEMPLATE_POW_FUNC(size, type) \
     VEC_TEMPLATE_CLAMP_FUNC(size, type) \
     VEC_TEMPLATE_CROSS_FUNC(size, type) \
     VEC_TEMPLATE_NORMALIZE_FUNC(size, type) \
@@ -226,6 +372,15 @@
     VEC_TEMPLATE_COMPARE_SIGNS_FUNC(size, type) \
     VEC_TEMPLATE_TO_STRING_FUNC(size, type, name) \
     VEC_TEMPLATE_RANDOM_FUNC(size, type) \
+    VEC_TEMPLATE_FRACT_FUNC(size, type) \
+    VEC_TEMPLATE_FLOOR_FUNC(size, type) \
+    VEC_TEMPLATE_SIN_FUNC(size, type) \
+    VEC_TEMPLATE_COS_FUNC(size, type) \
+    VEC_TEMPLATE_TAN_FUNC(size, type) \
+    VEC_TEMPLATE_SQRT_FUNC(size, type) \
+    VEC_TEMPLATE_INVSQRT_FUNC(size, type) \
+    VEC_TEMPLATE_MIN_FUNC(size, type) \
+    VEC_TEMPLATE_MAX_FUNC(size, type) \
     \
     unsigned int dim() \
     { \
@@ -235,23 +390,23 @@
 template<typename T, unsigned int S, unsigned int type = 0U>
 struct tvec
 {
-    VEC_TEMPLATE(S, "vec" + std::to_string(S), type, struct{ T x; }; struct{ T r; });
+    VEC_TEMPLATE(S, "vec" + std::to_string(S), type, struct{ T x; }; struct{ T r; }; struct{ T s; });
 };
 
 template<typename T>
 struct tvec<T, 2, 0U>
 {
-    VEC_TEMPLATE(2, "vec2", 0U, struct{ T x, y; }; struct{ T r, g; });
+    VEC_TEMPLATE(2, "vec2", 0U, struct{ T x, y; }; struct{ T r, g; }; struct{ T s, t; });
 };
 template<typename T>
 struct tvec<T, 3, 0U>
 {
-    VEC_TEMPLATE(3, "vec3", 0U, struct{ T x, y, z; }; struct{ T r, g, b; });
+    VEC_TEMPLATE(3, "vec3", 0U, struct{ T x, y, z; }; struct{ T r, g, b; }; struct{ T s, t, p; });
 };
 template<typename T>
 struct tvec<T, 4, 0U>
 {
-    VEC_TEMPLATE(4, "vec4", 0U, struct{ T x, y, z, w; }; struct{ T r, g, b, a; });
+    VEC_TEMPLATE(4, "vec4", 0U, struct{ T x, y, z, w; }; struct{ T r, g, b, a; }; struct{ T s, t, p, q; });
 };
 
 template<typename T>

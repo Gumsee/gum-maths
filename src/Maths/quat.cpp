@@ -9,13 +9,16 @@ quat::quat(float sx, float sy, float sz, float sw) : x(sx),    y(sy),    z(sz), 
 quat::quat(vec3 vec, float sw)                     : x(vec.x), y(vec.y), z(vec.z), w(sw) {}
 
 
-void quat::operator+=(quat q) { this->x += q.x; this->y += q.y; this->z += q.z; this->w += q.w; }
-void quat::operator-=(quat q) { this->x -= q.x; this->y -= q.y; this->z -= q.z; this->w -= q.w; }
+void quat::operator+=(const quat& q)  { this->x += q.x; this->y += q.y; this->z += q.z; this->w += q.w; }
+void quat::operator-=(const quat& q)  { this->x -= q.x; this->y -= q.y; this->z -= q.z; this->w -= q.w; }
+void quat::operator*=(const float& f) { this->x *= f;   this->y *= f;   this->z *= f;   this->w *= f; }
+bool quat::operator==(const quat& q)  { return this->x == q.x && this->y == q.y && this->z == q.z && this->w == q.w; }
+bool quat::operator!=(const quat& q)  { return !this->operator==(q); }
 
 quat quat::operator+(quat q)  { return quat(this->x + q.x, this->y + q.y, this->z + q.z, this->w + q.w); }
 quat quat::operator-(quat q)  { return quat(this->x - q.x, this->y - q.y, this->z - q.z, this->w - q.w); }
 quat quat::operator*(quat q)  
-{ 
+{
     return quat(
         w * q.x + x * q.w + y * q.z - z * q.y, 
         w * q.y + y * q.w + z * q.x - x * q.z, 
@@ -23,7 +26,8 @@ quat quat::operator*(quat q)
         w * q.w - x * q.x - y * q.y - z * q.z
     ); 
 }
-quat quat::operator/(float f)  { return quat(this->x / f, this->y / f, this->z / f, this->w / f); }
+quat quat::operator/(const float& f) const { return quat(this->x / f, this->y / f, this->z / f, this->w / f); }
+//quat quat::operator*(const float& f) const { return quat(this->x * f, this->y * f, this->z * f, this->w * f); }
 
 float quat::operator[](int index)
 {
@@ -36,29 +40,37 @@ float quat::operator[](int index)
 
 quat quat::slerp(quat a, quat b, float f)
 {
-    // quaternion to return
 	quat qm;
-	// Calculate angle between them.
-	double cosHalfTheta = a.w * b.w + a.x * b.x + a.y * b.y + a.z * b.z;
+	double cosHalfTheta = dot(a,b);
+
+    if(cosHalfTheta > 0.9999f) { return b; } // q1 and q2 are already equal. Force q2 just to be sure
+
+    if (cosHalfTheta < 0) // Avoid taking the long path around the sphere
+    {
+        a *= -1.0f;
+        cosHalfTheta *= -1.0f;
+    }
+
 	// if qa=qb or qa=-qb then theta = 0 and we can return qa
-	if (std::abs(cosHalfTheta) >= 1.0){
-		qm.x = a.x; qm.y = a.y; qm.z = a.z; qm.w = a.w;
-		return qm;
-	}
+	if(std::abs(cosHalfTheta) >= 1.0)
+		return a;
+
 	// Calculate temporary values.
-	double halfTheta = std::acos(cosHalfTheta);
-	double sinHalfTheta = std::sqrt(1.0 - cosHalfTheta*cosHalfTheta);
+	double halfTheta = acos(cosHalfTheta);
+	double sinHalfTheta = sqrt(1.0 - cosHalfTheta*cosHalfTheta);
 	// if theta = 180 degrees then result is not fully defined
 	// we could rotate around any axis normal to qa or qb
-	if (std::fabs(sinHalfTheta) < 0.001){ // fabs is floating point absolute
+	if (fabs(sinHalfTheta) < 0.001)
+    { // fabs is floating point absolute
 		qm.w = (a.w * 0.5 + b.w * 0.5);
 		qm.x = (a.x * 0.5 + b.x * 0.5);
 		qm.y = (a.y * 0.5 + b.y * 0.5);
 		qm.z = (a.z * 0.5 + b.z * 0.5);
 		return qm;
 	}
-	double ratioA = std::sin((1 - f) * halfTheta) / sinHalfTheta;
-	double ratioB = std::sin(f * halfTheta) / sinHalfTheta; 
+
+	double ratioA = sin((1 - f) * halfTheta) / sinHalfTheta;
+	double ratioB = sin(f * halfTheta) / sinHalfTheta; 
 	//calculate Quaternion.
 	qm.w = (a.w * ratioA + b.w * ratioB);
 	qm.x = (a.x * ratioA + b.x * ratioB);
@@ -126,15 +138,16 @@ vec3 quat::toEuler(quat q)
 
 float quat::dot(quat a, quat b)  { return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w; }
 
-quat quat::rotateTowards(quat from, quat to, float speed)
+quat quat::rotateTowards(quat from, quat to, const float& speed)
 {
-    float cosTheta = dot(from, to);
+    quat ffrom = from;
+    float cosTheta = dot(ffrom, to);
 
     if(cosTheta > 0.9999f) { return to; } // q1 and q2 are already equal. Force q2 just to be sure
 
     if (cosTheta < 0) // Avoid taking the long path around the sphere
     {
-        from = from*-1.0f;
+        ffrom *= -1.0f;
         cosTheta *= -1.0f;
     }
 
@@ -144,13 +157,13 @@ quat quat::rotateTowards(quat from, quat to, float speed)
     float fT = speed / angle;
     angle = speed;
 
-    quat res = (from * std::sin((1.0f - fT) * angle) + to * std::sin(fT * angle)) / std::sin(angle);
+    quat res = (ffrom * std::sin((1.0f - fT) * angle) + to * std::sin(fT * angle)) / std::sin(angle);
     res = quat::normalize(res);
     return res;
 }
 
 
-std::string quat::toString(bool oneline, std::string prefix, std::string suffix, std::string delimiter)
+std::string quat::toString(bool oneline, std::string prefix, std::string suffix, std::string delimiter) const
 {
     return prefix + std::to_string(this->x) + delimiter + std::to_string(this->y) + delimiter + std::to_string(this->z) + delimiter + std::to_string(this->w) + suffix;
 }

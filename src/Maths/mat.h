@@ -287,6 +287,7 @@ struct mat
         output += suffix;
         return output;
     }
+    operator std::string() const { return toString(); }
 
     unsigned int width() 
     {

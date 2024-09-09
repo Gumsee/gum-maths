@@ -48,6 +48,15 @@ namespace Maths
     extern float distance(float a, float b);
     extern long factorial(int n);
     extern double binomialCoeff(int n, int k);
+    extern float fract(float f);
+    extern float smoothstep (float edge0, float edge1, float x);
+    extern float inversesqrt(float x);
+
+    template<typename T> 
+    static int sign(T val) 
+    {
+        return (T(0) < val) - (val < T(0));
+    }
 
 
     //Sorting

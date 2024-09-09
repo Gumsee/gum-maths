@@ -6,7 +6,7 @@ namespace Maths
 {
     mat4 createTransformationMatrix(vec3 translation, vec3 rotation, vec3 scale)
     {
-        return translateMatrix(translation) * rotateMatrix(rotation) * scaleMatrix(scale);
+        return translateMatrix(translation) * rotateMatrix(quat::toQuaternion(rotation)) * scaleMatrix(scale);
     }
 
     mat4 createTransformationMatrix(vec3 translation, quat rotation, vec3 scale)
@@ -163,5 +163,32 @@ namespace Maths
         retmat[0][1] =  sin(q);
         retmat[1][1] =  cos(q);
         return retmat;
+    }
+
+    quat rotationFromMatrix(mat4 mat)
+    {
+        float sx = vec3(mat[0][0], mat[0][1], mat[0][2]).length();
+        float sy = vec3(mat[1][0], mat[1][1], mat[1][2]).length();
+        float sz = vec3(mat[2][0], mat[2][1], mat[2][2]).length();
+
+        mat3 rot {
+            mat[0][0] / sx, mat[1][0] / sy, mat[2][0] / sz,
+            mat[0][1] / sx, mat[1][1] / sy, mat[2][1] / sz,
+            mat[0][2] / sx, mat[1][2] / sy, mat[2][2] / sz
+        };
+        return quat(rot);
+    }
+
+    vec3 positionFromMatrix(mat4 mat)
+    {
+        return vec3(mat[3][0], mat[3][1], mat[3][2]);
+    }
+
+    vec3 scaleFromMatrix(mat4 mat)
+    {
+        float sx = vec3(mat[0][0], mat[0][1], mat[0][2]).length();
+        float sy = vec3(mat[1][0], mat[1][1], mat[1][2]).length();
+        float sz = vec3(mat[2][0], mat[2][1], mat[2][2]).length();
+        return vec3(sx, sy, sz);
     }
 }}

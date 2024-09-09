@@ -20,13 +20,13 @@ public:
     using rgba::operator*=;
 
     //Setter
-    void setHSVA(hsva val)       { rgba::operator=(rgba(Gum::Maths::HSVToRGB(val), val.a)); }
-    void setRGBA(rgba val)       { rgba::operator=(val); }
-    void setHEX(std::string val) { rgba::operator=(rgba(Gum::Maths::HEXToRGBA(val))); }
+    void setHSVA(const hsva& val)       { rgba::operator=(rgba(Gum::Maths::HSVToRGB(val), val.a)); }
+    void setRGBA(const rgba& val)       { rgba::operator=(val); }
+    void setHEX(const std::string& val) { rgba::operator=(rgba(Gum::Maths::HEXToRGBA(val))); }
 
     //Getter
-    hsva getHSVA()               { return hsva(Gum::Maths::RGBToHSV(*this), a); }
-    rgba getRGBA()               { return *this; }
-    vec4 getGLColor()            { return vec4(r,g,b,a) / 255.0f; }
-    std::string getHEX()         { return Gum::Maths::RGBAToHEX(*this); }
+    hsva getHSVA() const         { return hsva(Gum::Maths::RGBToHSV(*this), a); }
+    rgba getRGBA() const         { return *this; }
+    vec4 getGLColor() const      { return vec4(r,g,b,a) / 255.0f; }
+    std::string getHEX() const   { return Gum::Maths::RGBAToHEX(*this); }
 };

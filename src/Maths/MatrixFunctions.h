@@ -32,4 +32,7 @@ namespace Maths
     extern mat4 rotateMatrix(vec3 deg);
     extern mat4 rotateMatrix(quat q);
     extern mat3 rotateMatrix(float deg);
+    extern quat rotationFromMatrix(mat4 mat);
+    extern vec3 positionFromMatrix(mat4 mat);
+    extern vec3 scaleFromMatrix(mat4 mat);
 }}
