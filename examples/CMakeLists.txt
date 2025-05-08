@@ -2,11 +2,11 @@ message(STATUS "Examples: CXXFLAGS: ${CMAKE_CXX_FLAGS}")
 
 list(APPEND GUM_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
 
-
-
-include_directories(${CMAKE_SOURCE_DIR}/src/)
  
         list(APPEND GUM_LIBRARIES ${CMAKE_PROJECT_NAME})
+
+include_directories(${CMAKE_SOURCE_DIR}/src/)
+
 
 link_directories(${CMAKE_BINARY_DIR}/src/)
 
