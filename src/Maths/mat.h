@@ -7,7 +7,7 @@
 template<typename T, unsigned int N, unsigned int M>
 struct mat
 {
-    T v[M][N];
+    T v[M][N] = {0};
     
     mat()
     {
@@ -287,6 +287,7 @@ struct mat
         output += suffix;
         return output;
     }
+    operator std::string() const { return toString(); }
 
     unsigned int width() 
     {

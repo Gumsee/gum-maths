@@ -1,32 +1,43 @@
 #pragma once
-#include "vec.h"
-#include "mat.h"
-#include "ColorFunctions.h"
-#include "MatrixFunctions.h"
+#include <iomanip>
+#include <limits>
+#include <string>
 #include <vector>
+#include <sstream>
 
 #define PI 3.14159265358979
 
 namespace Gum {
 namespace Maths
 {
-	extern float barryCentric(vec3 p1, vec3 p2, vec3 p3, vec2 pos);
-
     //Conversions
     extern float toRadians(float deg);
     extern float toDegree(float rad);
     extern float sindeg(float deg);
     extern float cosdeg(float deg);
     extern float tandeg(float deg);
+    
+    template<typename T>
+    static std::string numToString(const T& num, const unsigned short& precision = std::numeric_limits<unsigned short>::max())
+    {
+        if(precision < std::numeric_limits<unsigned short>::max())
+        {
+            std::stringstream sstream;
+            sstream << std::fixed << std::setprecision(precision) << num;
+            return sstream.str();
+        }
+
+        return std::to_string(num);
+    }
 
     //Math Functions
     template<typename T>
-    static T clamp(T &var, const T min, const T max)
+    static T clamp(const T var, const T min, const T max)
     {   
         static_assert(std::is_arithmetic<T>::value, "Maths::clamp: T must be numeric");
         
-        if(var < min) { var = min; }
-        if(var > max) { var = max; }
+        if(var < min) { return min; }
+        if(var > max) { return max; }
         return var;
     }
     extern float mix(float a, float b, float f);
@@ -37,8 +48,16 @@ namespace Maths
     extern float distance(float a, float b);
     extern long factorial(int n);
     extern double binomialCoeff(int n, int k);
+    extern float fract(float f);
+    extern float smoothstep (float edge0, float edge1, float x);
+    extern float inversesqrt(float x);
 
-    //Vector Operations
+    template<typename T> 
+    static int sign(T val) 
+    {
+        return (T(0) < val) - (val < T(0));
+    }
+
 
     //Sorting
     template<typename T> 

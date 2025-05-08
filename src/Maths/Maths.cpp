@@ -4,16 +4,6 @@
 namespace Gum {
 namespace Maths
 {
-    float barryCentric(vec3 p1, vec3 p2, vec3 p3, vec2 pos) 
-    {
-        float det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
-        float l1 = ((p2.z - p3.z) * (pos.x - p3.x) + (p3.x - p2.x) * (pos.y - p3.z)) / det;
-        float l2 = ((p3.z - p1.z) * (pos.x - p3.x) + (p1.x - p3.x) * (pos.y - p3.z)) / det;
-        float l3 = 1.0f - l1 - l2;
-        return l1 * p1.y + l2 * p2.y + l3 * p3.y;
-    }
-
-
     float toRadians(float deg)                { return deg * PI / 180; }
     float toDegree(float rad)                 { return rad * 180 / PI; }
     float sindeg(float deg)                   { return (float)sin(toRadians(deg)); }
@@ -23,6 +13,7 @@ namespace Maths
     double fade(double t)                     { return ((6*t - 15)*t + 10)*t*t*t; }
     float distance(float a, float b)          { return std::abs(a - b); }
     float mix(float a, float b, float f)      { return a * (1 - f) + b * f; }
+    float fract(float f)                      { return f - floor(f); }
     long factorial(int n)                     
     {
         long ret = 1;
@@ -41,4 +32,15 @@ namespace Maths
         return from + randval * (to - from);
     }
     //float noise(int seed)                     { randomGenerator.setSeed(seed); return randomGenerator.nextFloat(); }
+
+    float smoothstep(float edge0, float edge1, float x)
+    {
+        x = clamp((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
+        return x * x * (3.0f - 2.0f * x);
+    }
+    
+    float inversesqrt(float x)
+    {
+        return 1.0f / sqrt(x);
+    }
 }}
