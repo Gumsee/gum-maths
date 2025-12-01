@@ -71,6 +71,7 @@
                           /*void    operator=(tvec<T, size, type> vvec)        { for(unsigned int i = 0; i < size; i++) vals[i] = vvec.vals[i]; }*/ \
     \
     tvec<T, size, type> operator-()                { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = -vals[i];               return nvec; } \
+    const tvec<T, size, type>& operator-() const          { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = -vals[i];               return nvec; } \
     T& operator[](unsigned int& index)             { return vals[index]; } \
     const T& operator[](unsigned int& index) const { return vals[index]; } \
     const T& at(unsigned int index) const          { return vals[index]; }
