@@ -1,6 +1,7 @@
 #pragma once
 #include "GumMathsClass.h"
 #include "Maths.h"
+#include "Random.h"
 #include <limits>
 #include <string>
 #include <cstring>
@@ -203,8 +204,7 @@
         tvec<T, size, type> ret; \
         for(unsigned int i = 0; i < size; i++) \
         { \
-            T randval = (T)rand() / (T)RAND_MAX; \
-            ret[i] = from[i] + randval * (to[i] - from[i]); \
+            ret[i] = (T)Gum::Random::uniform<TT>(from[i], to[i]); \
         } \
         return ret; \
     }
