@@ -52,20 +52,20 @@
     template<typename TT> bool operator==(const tvec<TT, size, type>& vvec) const                { for(unsigned int i = 0; i < size; i++) if(vals[i] == vvec.vals[i]) { return true; } return false; } \
     template<typename TT> bool operator==(const TT& f) const                                     { for(unsigned int i = 0; i < size; i++) if(vals[i] == f)            { return true; } return false; } \
     \
-    template<typename TT> tvec<T, size, type> operator+(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] + vvec.vals[i]; return nvec; } \
-    template<typename TT> tvec<T, size, type> operator-(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] - vvec.vals[i]; return nvec; } \
-    template<typename TT> tvec<T, size, type> operator/(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] / vvec.vals[i]; return nvec; } \
-    template<typename TT> tvec<T, size, type> operator*(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] * vvec.vals[i]; return nvec; } \
-    template<typename TT> tvec<T, size, type> operator^(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] ^ vvec.vals[i]; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator+(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] + vvec.vals[i];  return nvec; } \
+    template<typename TT> tvec<T, size, type> operator-(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] - vvec.vals[i];  return nvec; } \
+    template<typename TT> tvec<T, size, type> operator/(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] / vvec.vals[i];  return nvec; } \
+    template<typename TT> tvec<T, size, type> operator*(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] * vvec.vals[i];  return nvec; } \
+    template<typename TT> tvec<T, size, type> operator^(const tvec<TT, size, type>& vvec) const  { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] ^ vvec.vals[i];  return nvec; } \
     template<typename TT> tvec<T, size, type> operator<<(const tvec<TT, size, type>& vvec) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] << vvec.vals[i]; return nvec; } \
     template<typename TT> tvec<T, size, type> operator>>(const tvec<TT, size, type>& vvec) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] >> vvec.vals[i]; return nvec; } \
-    template<typename TT> tvec<T, size, type> operator/(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] / f;            return nvec; } \
-    template<typename TT> tvec<T, size, type> operator*(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] * f;            return nvec; } \
-    template<typename TT> tvec<T, size, type> operator+(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] + f;            return nvec; } \
-    template<typename TT> tvec<T, size, type> operator-(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] - f;            return nvec; } \
-    template<typename TT> tvec<T, size, type> operator^(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] ^ f;            return nvec; } \
-    template<typename TT> tvec<T, size, type> operator<<(const TT& f) const                      { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] << f;           return nvec; } \
-    template<typename TT> tvec<T, size, type> operator>>(const TT& f) const                      { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] >> f;           return nvec; } \
+    template<typename TT> tvec<T, size, type> operator/(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] / (T)f;          return nvec; } \
+    template<typename TT> tvec<T, size, type> operator*(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] * (T)f;          return nvec; } \
+    template<typename TT> tvec<T, size, type> operator+(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] + (T)f;          return nvec; } \
+    template<typename TT> tvec<T, size, type> operator-(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] - (T)f;          return nvec; } \
+    template<typename TT> tvec<T, size, type> operator^(const TT& f) const                       { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] ^ (T)f;          return nvec; } \
+    template<typename TT> tvec<T, size, type> operator<<(const TT& f) const                      { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] << (T)f;         return nvec; } \
+    template<typename TT> tvec<T, size, type> operator>>(const TT& f) const                      { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] >> (T)f;         return nvec; } \
     template<typename TT, unsigned int SS>  \
                           void           operator=(const tvec<TT, SS, type>& vvec)         { for(unsigned int i = 0; i < (size < SS ? size : SS); i++) vals[i] = (T)vvec.vals[i]; } \
                           /*void    operator=(tvec<T, size, type> vvec)        { for(unsigned int i = 0; i < size; i++) vals[i] = vvec.vals[i]; }*/ \

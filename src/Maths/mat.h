@@ -7,7 +7,7 @@
 template<typename T, unsigned int N, unsigned int M>
 struct mat
 {
-    T v[M][N] = {0};
+    T v[M][N] = {{0}};
     
     mat()
     {
@@ -239,7 +239,7 @@ struct mat
             if (det == 0)
                 return m; //There's no inverse
 
-            det = 1.0 / det;
+            det = (TT)1.0 / det;
 
             for (unsigned int i = 0; i < MM; i++)
                 for (unsigned int j = 0; j < NN; j++)

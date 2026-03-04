@@ -13,8 +13,8 @@ struct quat
     quat(vec3 vec, float sw);
     quat(mat<float, 3, 3> mat)
     {
-        w = std::sqrt(1.0 + mat[0][0] + mat[1][1] + mat[2][2]) / 2.0;
-        float w4 = (4.0 * w);
+        w = std::sqrt(1.0f + mat[0][0] + mat[1][1] + mat[2][2]) / 2.0f;
+        float w4 = (4.0f * w);
         x = (mat[1][2] - mat[2][1]) / w4;
         y = (mat[2][0] - mat[0][2]) / w4;
         z = (mat[0][1] - mat[1][0]) / w4;

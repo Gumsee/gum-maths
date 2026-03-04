@@ -18,6 +18,7 @@ public:
     using rgba::operator/=;
     using rgba::operator*;
     using rgba::operator*=;
+    using rgba::operator[];
 
     //Setter
     void setHSVA(const hsva& val)       { rgba::operator=(rgba(Gum::Maths::HSVToRGB(val), val.a)); }
