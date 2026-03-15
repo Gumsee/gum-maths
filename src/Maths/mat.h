@@ -22,6 +22,13 @@ struct mat
             for(unsigned int j = 0; j < N; j++)
                 v[i][j] = f;
     }
+    template<typename TT>
+    mat(const mat<TT, N, M>& m)
+    {
+        for(unsigned int i = 0; i < N; i++)
+            for(unsigned int j = 0; j < M; j++)
+                v[i][j] = m[i][j];
+    }
 
     /*template<typename TT, unsigned int NN, unsigned int MM>
     mat(mat<TT, NN, MM> const& m)
