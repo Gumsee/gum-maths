@@ -172,4 +172,16 @@ namespace Maths
     {
         return translateMatrix<T>(translation) * rotateMatrix<T>(rotation) * scaleMatrix<T>(scale);
     }
+
+    template<typename T>
+    static mat<T,4,4> inverseTransformationMatrix(mat<T,4,4> m)
+    {
+      mat<T,3,3> rotation = mat<T,3,3>::transpose(mat<T,3,3>(m));
+      tvec<T,3> translation = rotation * -positionFromMatrix(m);
+      tvec<T,3> scale = scaleFromMatrix(m);
+      mat4 rotation44(rotation);
+      rotation44[3][3] = (T)1.0;
+
+      return translateMatrix<T>(translation) * rotation44 * scaleMatrix<T>(scale);
+    }
 }}
