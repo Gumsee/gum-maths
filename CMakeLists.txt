@@ -63,3 +63,4 @@ add_definitions(-DCHECK_GL_ERRORS)
 
 add_subdirectory(src)
 add_subdirectory(examples)
+add_subdirectory(tests)

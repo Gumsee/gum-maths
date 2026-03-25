@@ -20,6 +20,9 @@ for CONFIG in $CONFIGS; do
 
     cmake -DCMAKE_BUILD_TYPE=$CONFIG $ROOTDIR
     make -j24
+
+    cd tests
+    ctest --output-on-failure
 done
 
 cd "$ROOTDIR"

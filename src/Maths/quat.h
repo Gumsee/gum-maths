@@ -99,10 +99,10 @@ struct quat
     quat operator*(quat q)  
     {
         return quat(
-            w * q.w - x * q.x - y * q.y - z * q.z,
-            w * q.x + x * q.w + y * q.z - z * q.y,
-            w * q.y + x * q.z + y * q.w - z * q.x, 
-            w * q.z + x * q.y + y * q.x - z * q.w
+            q.w * w - q.x * x - q.y * y - q.z * z,
+            q.w * x + q.x * w - q.y * z + q.z * y,
+            q.w * y + q.x * z + q.y * w - q.z * x, 
+            q.w * z - q.x * y + q.y * x + q.z * w
         ); 
     }
 
@@ -138,6 +138,11 @@ struct quat
             return &vals[index];
         else
             return *vals[index];
+    }
+
+    quat<T> operator-()
+    { 
+      return quat<T>(-w, -x, -y, -z);
     }
 
     PureType* data()
@@ -283,10 +288,7 @@ struct quat
     
     std::string toString(std::string prefix = "quat(", std::string suffix = ")", std::string delimiter = ",") const
     {
-        if constexpr (!ispointer)
-            return prefix + std::to_string(this->x) + delimiter + std::to_string(this->y) + delimiter + std::to_string(this->z) + delimiter + std::to_string(this->w) + suffix;
-        else
-            return prefix + std::to_string(*this->x) + delimiter + std::to_string(*this->y) + delimiter + std::to_string(*this->z) + delimiter + std::to_string(*this->w) + suffix;
+      return prefix + std::to_string(this->w) + delimiter + std::to_string(this->x) + delimiter + std::to_string(this->y) + delimiter + std::to_string(this->z) + suffix;
     }
     operator std::string() const { return toString(); }
 };
