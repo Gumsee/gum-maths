@@ -47,7 +47,7 @@ namespace Maths
     extern double fade(double t);
     extern float distance(float a, float b);
     extern long factorial(int n);
-    extern double binomialCoeff(int n, int k);
+    extern long binomialCoeff(int n, int k);
     extern float fract(float f);
     extern float smoothstep (float edge0, float edge1, float x);
     extern float inversesqrt(float x);

@@ -1,12 +1,10 @@
 #pragma once
 #include "vec.h"
 #include "mat.h"
-#include "GumMathsClass.h"
 
-template <typename T = float, bool ispointer = std::is_pointer<T>::value>
+template <typename T = float>
 struct quat
 {
-    typedef std::remove_pointer_t<T> PureType;
     union {
         T vals[4] = {0};
         struct { T w, x, y, z; };
@@ -16,13 +14,13 @@ struct quat
     quat(T f)                    : w(f),      x(f),       y(f),        z(f)     {}
     quat(T sw, T sx, T sy, T sz) : w(sw),     x(sx),      y(sy),       z(sz)    {}
     quat(T sw, tvec<T,3> vec)    : w(sw),     x(vec.x),   y(vec.y),    z(vec.z) {}
-    quat(mat<PureType, 3, 3> mat)
+    quat(mat<T, 3, 3> mat)
     {
         T t = mat[0][0] + mat[1][1] + mat[2][2];
         // we protect the division by s by ensuring that s>=1
         if (t >= 0) 
         { // by w
-            T s = sqrt(t + 1);
+            T s = (T)sqrt(t + 1);
             s = (T)0.5 / s;
             w = (T)0.5 * s;                 
             x = (mat[2][1] - mat[1][2]) * s;
@@ -31,7 +29,7 @@ struct quat
         } 
         else if ((mat[0][0] > mat[1][1]) && (mat[0][0] > mat[2][2])) 
         { // by x
-            T s = sqrt(1 + mat[0][0] - mat[1][1] - mat[2][2]); 
+            T s = (T)sqrt(1 + mat[0][0] - mat[1][1] - mat[2][2]); 
             s = (T)0.5 / s;
             x = s * (T)0.5;
             y = (mat[1][0] + mat[0][1]) * s;
@@ -40,7 +38,7 @@ struct quat
         } 
         else if (mat[1][1] > mat[2][2]) 
         { // by y
-            T s = sqrt(1 + mat[1][1] - mat[0][0] - mat[2][2]);  
+            T s = (T)sqrt(1 + mat[1][1] - mat[0][0] - mat[2][2]);  
             s = (T)0.5 / s;
             y = s * (T)0.5;
             x = (mat[1][0] + mat[0][1]) * s;
@@ -49,7 +47,7 @@ struct quat
         } 
         else 
         { // by z
-            T s = sqrt(1 + mat[2][2] - mat[0][0] - mat[1][1]); 
+            T s = (T)sqrt(1 + mat[2][2] - mat[0][0] - mat[1][1]); 
             z = s * (T)0.5; 
             s = (T)0.5 / s;
             x = (mat[0][2] + mat[2][0]) * s;
@@ -57,7 +55,7 @@ struct quat
             w = (mat[1][0] - mat[0][1]) * s;
         }
         //w = std::sqrt(1.0f + mat[0][0] + mat[1][1] + mat[2][2]) / 2.0f;
-        //PureType w4 = ((PureType)4.0 * w);
+        //T w4 = ((T)4.0 * w);
         //std::cout << "w: " << w << std::endl;
         //x = (mat[2][1] - mat[1][2]) / w4;
         //y = (mat[0][2] - mat[2][0]) / w4;
@@ -68,27 +66,18 @@ struct quat
     template<typename TT>
     void operator+=(const quat<TT>& q)
     { 
-        if      constexpr (!ispointer && !std::is_pointer<TT>::value) {  this->x +=  q.x;  this->y +=  q.y;  this->z +=  q.z;  this->w +=  q.w; }
-        else if constexpr (ispointer  && !std::is_pointer<TT>::value) { *this->x +=  q.x; *this->y +=  q.y; *this->z +=  q.z; *this->w +=  q.w; }
-        else if constexpr (!ispointer &&  std::is_pointer<TT>::value) {  this->x += *q.x;  this->y += *q.y;  this->z += *q.z;  this->w += *q.w; }
-        else if constexpr (ispointer  &&  std::is_pointer<TT>::value) { *this->x += *q.x; *this->y += *q.y; *this->z += *q.z; *this->w += *q.w; }
+        this->x +=  q.x;  this->y +=  q.y;  this->z +=  q.z;  this->w +=  q.w;
     }
     template<typename TT>
     void operator-=(const quat<TT>& q)
     { 
-        if      constexpr (!ispointer && !std::is_pointer<TT>::value) {  this->x -=  q.x;  this->y -=  q.y;  this->z -=  q.z;  this->w -=  q.w; }
-        else if constexpr (ispointer  && !std::is_pointer<TT>::value) { *this->x -=  q.x; *this->y -=  q.y; *this->z -=  q.z; *this->w -=  q.w; }
-        else if constexpr (!ispointer &&  std::is_pointer<TT>::value) {  this->x -= *q.x;  this->y -= *q.y;  this->z -= *q.z;  this->w -= *q.w; }
-        else if constexpr (ispointer  &&  std::is_pointer<TT>::value) { *this->x -= *q.x; *this->y -= *q.y; *this->z -= *q.z; *this->w -= *q.w; }
+        this->x -=  q.x;  this->y -=  q.y;  this->z -=  q.z;  this->w -=  q.w;
     }
 
     template<typename TT>
     bool operator==(const quat<TT>& q)
     { 
-        if      constexpr (!ispointer && !std::is_pointer<TT>::value) { return  this->x ==  q.x &&  this->y ==  q.y &&  this->z ==  q.z &&  this->w ==  q.w; }
-        else if constexpr (ispointer  && !std::is_pointer<TT>::value) { return *this->x ==  q.x && *this->y ==  q.y && *this->z ==  q.z && *this->w ==  q.w; }
-        else if constexpr (!ispointer &&  std::is_pointer<TT>::value) { return  this->x == *q.x &&  this->y == *q.y &&  this->z == *q.z &&  this->w == *q.w; }
-        else if constexpr (ispointer  &&  std::is_pointer<TT>::value) { return *this->x == *q.x && *this->y == *q.y && *this->z == *q.z && *this->w == *q.w; }
+        return  this->x ==  q.x &&  this->y ==  q.y &&  this->z ==  q.z &&  this->w ==  q.w;
     }
 
     template<typename TT>
@@ -106,38 +95,22 @@ struct quat
         ); 
     }
 
-    void operator*=(const PureType& f)
-    { 
-        if constexpr (!ispointer)
-        {
-            this->x *= f;
-            this->y *= f;
-            this->z *= f;
-            this->w *= f; 
-        }
-        else
-        {
-            *this->x *= f;
-            *this->y *= f;
-            *this->z *= f;
-            *this->w *= f; 
-        }
+    void operator*=(const T& f)
+    {
+        this->x *= f;
+        this->y *= f;
+        this->z *= f;
+        this->w *= f;
     }
 
-    quat<PureType> operator/(const PureType& f) const 
+    quat<T> operator/(const T& f) const 
     { 
-        if constexpr (!ispointer)
-            return quat<PureType>(this->w / f, this->x / f, this->y / f, this->z / f); 
-        else
-            return quat<PureType>(*this->w / f, *this->x / f, *this->y / f, *this->z / f); 
+        return quat<T>(*this->w / f, *this->x / f, *this->y / f, *this->z / f); 
     }
     
-    PureType& operator[](int index)
+    T& operator[](int index)
     {
-        if constexpr (!ispointer)
-            return &vals[index];
-        else
-            return *vals[index];
+        return *vals[index];
     }
 
     quat<T> operator-()
@@ -145,26 +118,15 @@ struct quat
       return quat<T>(-w, -x, -y, -z);
     }
 
-    PureType* data()
+    T* data()
     {
-        if constexpr (!ispointer)
-            return &vals[0];
-        else
-            return vals;
+        return vals;
     }
 
-    static quat<PureType> normalize(quat q)
+    static quat<T> normalize(quat q)
     {
-        if constexpr (!ispointer)
-        {
-            PureType length_of_v = std::sqrt((q.x * q.x) + (q.y * q.y) + (q.z * q.z) + (q.w * q.w));;
-            return quat(q.w / length_of_v, q.x / length_of_v, q.y / length_of_v, q.z / length_of_v);
-        }
-        else
-        {
-            PureType length_of_v = std::sqrt((*q.x * *q.x) + (*q.y * *q.y) + (*q.z * *q.z) + (*q.w * *q.w));;
-            return quat(*q.w / length_of_v, *q.x / length_of_v, *q.y / length_of_v, *q.z / length_of_v);
-        }
+        T length_of_v = std::sqrt((*q.x * *q.x) + (*q.y * *q.y) + (*q.z * *q.z) + (*q.w * *q.w));;
+        return quat(*q.w / length_of_v, *q.x / length_of_v, *q.y / length_of_v, *q.z / length_of_v);
     }
 
     static tvec<T, 3> toEuler(quat q)
@@ -229,8 +191,8 @@ struct quat
 
         if (cosHalfTheta < (T)0.0) // Avoid taking the long path around the sphere
         {
-            a *= -1.0f;
-            cosHalfTheta *= -1.0f;
+            a *= (T)-1.0;
+            cosHalfTheta *= (T)-1.0;
         }
 
         // if qa=qb or qa=-qb then theta = 0 and we can return qa
@@ -244,10 +206,10 @@ struct quat
         // we could rotate around any axis normal to qa or qb
         if (fabs(sinHalfTheta) < 0.001)
         { // fabs is floating point absolute
-            qm.w = (a.w * 0.5 + b.w * 0.5);
-            qm.x = (a.x * 0.5 + b.x * 0.5);
-            qm.y = (a.y * 0.5 + b.y * 0.5);
-            qm.z = (a.z * 0.5 + b.z * 0.5);
+            qm.w = (a.w * (T)0.5 + b.w * (T)0.5);
+            qm.x = (a.x * (T)0.5 + b.x * (T)0.5);
+            qm.y = (a.y * (T)0.5 + b.y * (T)0.5);
+            qm.z = (a.z * (T)0.5 + b.z * (T)0.5);
             return qm;
         }
 
@@ -270,8 +232,8 @@ struct quat
 
         if (cosTheta < 0) // Avoid taking the long path around the sphere
         {
-            ffrom *= -1.0f;
-            cosTheta *= -1.0f;
+            ffrom *= (T)-1.0f;
+            cosTheta *= (T)-1.0f;
         }
 
         float angle = std::acos(cosTheta);

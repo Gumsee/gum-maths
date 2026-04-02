@@ -6,6 +6,7 @@
 #define GUM_LN2      0.693147180559945309417  // ln(2)
 #define GUM_LN10     2.30258509299404568402   // ln(10)
 #define GUM_PI       3.14159265358979323846   // pi
+#define GUM_PI_F     3.1415926f               // pi(float)
 #define GUM_TWO_PI   6.28318530718            // pi*2
 #define GUM_PI_DIV_2 1.57079632679489661923   // pi/2
 #define GUM_PI_DIV_4 0.785398163397448309616  // pi/4

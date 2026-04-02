@@ -1,7 +1,7 @@
 #pragma once
-#include "GumMathsClass.h"
 #include "Maths.h"
 #include "Random.h"
+#include "Constants.h"
 #include <limits>
 #include <string>
 #include <cstring>
@@ -37,218 +37,99 @@
         memcpy(&vals[SS], &args[0], (size - SS) * sizeof(T)); \
     }
 
-#define VEC_TEMPLATE_OPERATORS(size, type, ispointer) \
-    template<typename TT> void operator+=(const TT& f)       { if constexpr (!ispointer) for(unsigned int i = 0; i < size; i++) vals[i] += f; else for(unsigned int i = 0; i < size; i++) *vals[i] += f; } \
-    template<typename TT> void operator-=(const TT& f)       { if constexpr (!ispointer) for(unsigned int i = 0; i < size; i++) vals[i] -= f; else for(unsigned int i = 0; i < size; i++) *vals[i] -= f; } \
-    template<typename TT> void operator/=(const TT& f)       { if constexpr (!ispointer) for(unsigned int i = 0; i < size; i++) vals[i] /= f; else for(unsigned int i = 0; i < size; i++) *vals[i] /= f; } \
-    template<typename TT> void operator*=(const TT& f)       { if constexpr (!ispointer) for(unsigned int i = 0; i < size; i++) vals[i] *= f; else for(unsigned int i = 0; i < size; i++) *vals[i] *= f; } \
-    template<typename TT> void operator^=(const TT& f)       { if constexpr (!ispointer) for(unsigned int i = 0; i < size; i++) vals[i] ^= f; else for(unsigned int i = 0; i < size; i++) *vals[i] ^= f; } \
-    template<typename TT> bool operator==(const TT& f) const { if constexpr (!ispointer) {for(unsigned int i = 0; i < size; i++) if(vals[i] == f) { return true; } return false;} else {for(unsigned int i = 0; i < size; i++) if(*vals[i] == f) { return true; } return false;} } \
-    template<typename TT, bool _ispointer> void operator+=(const tvec<TT, size, type, _ispointer>& vvec) \
-    { \
-        if      constexpr (!ispointer && !_ispointer) for(unsigned int i = 0; i < size; i++)  vals[i] += vvec.vals[i]; \
-        else if constexpr (!ispointer &&  _ispointer) for(unsigned int i = 0; i < size; i++)  vals[i] += *vvec.vals[i]; \
-        else if constexpr (ispointer  && !_ispointer) for(unsigned int i = 0; i < size; i++) *vals[i] += vvec.vals[i]; \
-        else if constexpr (ispointer  &&  _ispointer) for(unsigned int i = 0; i < size; i++) *vals[i] += *vvec.vals[i]; \
-    } \
-    template<typename TT, bool _ispointer> void operator-=(const tvec<TT, size, type, _ispointer>& vvec) \
-    { \
-        if      constexpr (!ispointer && !_ispointer) for(unsigned int i = 0; i < size; i++)  vals[i] -= vvec.vals[i]; \
-        else if constexpr (!ispointer &&  _ispointer) for(unsigned int i = 0; i < size; i++)  vals[i] -= *vvec.vals[i]; \
-        else if constexpr (ispointer  && !_ispointer) for(unsigned int i = 0; i < size; i++) *vals[i] -= vvec.vals[i]; \
-        else if constexpr (ispointer  &&  _ispointer) for(unsigned int i = 0; i < size; i++) *vals[i] -= *vvec.vals[i]; \
-    } \
-    template<typename TT, bool _ispointer> void operator/=(const tvec<TT, size, type, _ispointer>& vvec) \
-    { \
-        if      constexpr (!ispointer && !_ispointer) for(unsigned int i = 0; i < size; i++)  vals[i] /= vvec.vals[i]; \
-        else if constexpr (!ispointer &&  _ispointer) for(unsigned int i = 0; i < size; i++)  vals[i] /= *vvec.vals[i]; \
-        else if constexpr (ispointer  && !_ispointer) for(unsigned int i = 0; i < size; i++) *vals[i] /= vvec.vals[i]; \
-        else if constexpr (ispointer  &&  _ispointer) for(unsigned int i = 0; i < size; i++) *vals[i] /= *vvec.vals[i]; \
-    } \
-    template<typename TT, bool _ispointer> void operator*=(const tvec<TT, size, type, _ispointer>& vvec) \
-    { \
-        if      constexpr (!ispointer && !_ispointer) for(unsigned int i = 0; i < size; i++)  vals[i] *= vvec.vals[i]; \
-        else if constexpr (!ispointer &&  _ispointer) for(unsigned int i = 0; i < size; i++)  vals[i] *= *vvec.vals[i]; \
-        else if constexpr (ispointer  && !_ispointer) for(unsigned int i = 0; i < size; i++) *vals[i] *= vvec.vals[i]; \
-        else if constexpr (ispointer  &&  _ispointer) for(unsigned int i = 0; i < size; i++) *vals[i] *= *vvec.vals[i]; \
-    } \
-    template<typename TT, bool _ispointer> void operator^=(const tvec<TT, size, type, _ispointer>& vvec) \
-    { \
-        if      constexpr (!ispointer && !_ispointer) for(unsigned int i = 0; i < size; i++)  vals[i] ^= vvec.vals[i]; \
-        else if constexpr (!ispointer &&  _ispointer) for(unsigned int i = 0; i < size; i++)  vals[i] ^= *vvec.vals[i]; \
-        else if constexpr (ispointer  && !_ispointer) for(unsigned int i = 0; i < size; i++) *vals[i] ^= vvec.vals[i]; \
-        else if constexpr (ispointer  &&  _ispointer) for(unsigned int i = 0; i < size; i++) *vals[i] ^= *vvec.vals[i]; \
-    } \
-    template<typename TT, bool _ispointer> bool operator!=(const tvec<TT, size, type, _ispointer>& vvec) const \
-    { \
-        if      constexpr (!ispointer && !_ispointer) {for(unsigned int i = 0; i < size; i++) if( vals[i] !=  vvec.vals[i]) { return true; } return false;} \
-        else if constexpr (!ispointer &&  _ispointer) {for(unsigned int i = 0; i < size; i++) if( vals[i] != *vvec.vals[i]) { return true; } return false;} \
-        else if constexpr (ispointer  && !_ispointer) {for(unsigned int i = 0; i < size; i++) if(*vals[i] !=  vvec.vals[i]) { return true; } return false;} \
-        else if constexpr (ispointer  &&  _ispointer) {for(unsigned int i = 0; i < size; i++) if(*vals[i] != *vvec.vals[i]) { return true; } return false;} \
-    } \
-    template<typename TT, bool _ispointer> bool operator==(const tvec<TT, size, type, _ispointer>& vvec) const \
-    { \
-        if      constexpr (!ispointer && !_ispointer) {for(unsigned int i = 0; i < size; i++) if( vals[i] !=  vvec.vals[i]) { return false; } return true;} \
-        else if constexpr (!ispointer &&  _ispointer) {for(unsigned int i = 0; i < size; i++) if( vals[i] != *vvec.vals[i]) { return false; } return true;} \
-        else if constexpr (ispointer  && !_ispointer) {for(unsigned int i = 0; i < size; i++) if(*vals[i] !=  vvec.vals[i]) { return false; } return true;} \
-        else if constexpr (ispointer  &&  _ispointer) {for(unsigned int i = 0; i < size; i++) if(*vals[i] != *vvec.vals[i]) { return false; } return true;} \
-    } \
+#define VEC_TEMPLATE_OPERATORS(size, type) \
+    template<typename TT> void operator+=(const TT& f)       { for(unsigned int i = 0; i < size; i++) vals[i] += (T)f; } \
+    template<typename TT> void operator-=(const TT& f)       { for(unsigned int i = 0; i < size; i++) vals[i] -= (T)f; } \
+    template<typename TT> void operator/=(const TT& f)       { for(unsigned int i = 0; i < size; i++) vals[i] /= (T)f; } \
+    template<typename TT> void operator*=(const TT& f)       { for(unsigned int i = 0; i < size; i++) vals[i] *= (T)f; } \
+    template<typename TT> void operator^=(const TT& f)       { for(unsigned int i = 0; i < size; i++) vals[i] ^= (T)f; } \
+    template<typename TT> bool operator!=(const TT& f) const { for(unsigned int i = 0; i < size; i++) if(vals[i] != f) { return true;  } return false; } \
+    template<typename TT> bool operator==(const TT& f) const { for(unsigned int i = 0; i < size; i++) if(vals[i] != f) { return false; } return true;  } \
+    template<typename TT> void operator+=(const tvec<TT, size, type>& vvec)       { for(unsigned int i = 0; i < size; i++) vals[i] += (T)vvec.vals[i]; } \
+    template<typename TT> void operator-=(const tvec<TT, size, type>& vvec)       { for(unsigned int i = 0; i < size; i++) vals[i] -= (T)vvec.vals[i]; } \
+    template<typename TT> void operator/=(const tvec<TT, size, type>& vvec)       { for(unsigned int i = 0; i < size; i++) vals[i] /= (T)vvec.vals[i]; } \
+    template<typename TT> void operator*=(const tvec<TT, size, type>& vvec)       { for(unsigned int i = 0; i < size; i++) vals[i] *= (T)vvec.vals[i]; } \
+    template<typename TT> void operator^=(const tvec<TT, size, type>& vvec)       { for(unsigned int i = 0; i < size; i++) vals[i] ^= (T)vvec.vals[i]; } \
+    template<typename TT> bool operator!=(const tvec<TT, size, type>& vvec) const { for(unsigned int i = 0; i < size; i++) if( vals[i] != vvec.vals[i]) { return true;  } return false; } \
+    template<typename TT> bool operator==(const tvec<TT, size, type>& vvec) const { for(unsigned int i = 0; i < size; i++) if( vals[i] != vvec.vals[i]) { return false; } return true;  } \
     \
-    template<typename TT> tvec<PureType, size, type> operator/(const TT& f) const  { tvec<PureType, size, type, ispointer> nvec; if constexpr (!ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] / (T)f;  } else { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] / (T)f;  } return nvec; } \
-    template<typename TT> tvec<PureType, size, type> operator*(const TT& f) const  { tvec<PureType, size, type, ispointer> nvec; if constexpr (!ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] * (T)f;  } else { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] * (T)f;  } return nvec; } \
-    template<typename TT> tvec<PureType, size, type> operator+(const TT& f) const  { tvec<PureType, size, type, ispointer> nvec; if constexpr (!ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] + (T)f;  } else { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] + (T)f;  } return nvec; } \
-    template<typename TT> tvec<PureType, size, type> operator-(const TT& f) const  { tvec<PureType, size, type, ispointer> nvec; if constexpr (!ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] - (T)f;  } else { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] - (T)f;  } return nvec; } \
-    template<typename TT> tvec<PureType, size, type> operator^(const TT& f) const  { tvec<PureType, size, type, ispointer> nvec; if constexpr (!ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] ^ (T)f;  } else { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] ^ (T)f;  } return nvec; } \
-    template<typename TT> tvec<PureType, size, type> operator<<(const TT& f) const { tvec<PureType, size, type, ispointer> nvec; if constexpr (!ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] << (T)f; } else { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] << (T)f; } return nvec; } \
-    template<typename TT> tvec<PureType, size, type> operator>>(const TT& f) const { tvec<PureType, size, type, ispointer> nvec; if constexpr (!ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] >> (T)f; } else { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] >> (T)f; } return nvec; } \
-    template<typename TT, bool _ispointer> tvec<PureType, size, type> operator+(const tvec<TT, size, type, _ispointer>& vvec) const \
-    { \
-        tvec<PureType, size, type> nvec; \
-        if      constexpr (!ispointer && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] +  vvec.vals[i]; } \
-        else if constexpr (!ispointer &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] + *vvec.vals[i]; } \
-        else if constexpr (ispointer  && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] +  vvec.vals[i]; } \
-        else if constexpr (ispointer  &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] + *vvec.vals[i]; } \
-        return nvec; \
-    } \
-    template<typename TT, bool _ispointer> tvec<PureType, size, type> operator-(const tvec<TT, size, type, _ispointer>& vvec) const \
-    { \
-        tvec<PureType, size, type> nvec; \
-        if      constexpr (!ispointer && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] -  vvec.vals[i]; } \
-        else if constexpr (!ispointer &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] - *vvec.vals[i]; } \
-        else if constexpr (ispointer  && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] -  vvec.vals[i]; } \
-        else if constexpr (ispointer  &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] - *vvec.vals[i]; } \
-        return nvec; \
-    } \
-    template<typename TT, bool _ispointer> tvec<PureType, size, type> operator/(const tvec<TT, size, type, _ispointer>& vvec) const \
-    { \
-        tvec<PureType, size, type> nvec; \
-        if      constexpr (!ispointer && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] /  vvec.vals[i]; } \
-        else if constexpr (!ispointer &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] / *vvec.vals[i]; } \
-        else if constexpr (ispointer  && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] /  vvec.vals[i]; } \
-        else if constexpr (ispointer  &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] / *vvec.vals[i]; } \
-        return nvec; \
-    } \
-    template<typename TT, bool _ispointer> tvec<PureType, size, type> operator*(const tvec<TT, size, type, _ispointer>& vvec) const \
-    { \
-        tvec<PureType, size, type> nvec; \
-        if      constexpr (!ispointer && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] *  vvec.vals[i]; } \
-        else if constexpr (!ispointer &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] * *vvec.vals[i]; } \
-        else if constexpr (ispointer  && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] *  vvec.vals[i]; } \
-        else if constexpr (ispointer  &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] * *vvec.vals[i]; } \
-        return nvec; \
-    } \
-    template<typename TT, bool _ispointer> tvec<PureType, size, type> operator^(const tvec<TT, size, type, _ispointer>& vvec) const \
-    { \
-        tvec<PureType, size, type> nvec; \
-        if      constexpr (!ispointer && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] ^  vvec.vals[i]; } \
-        else if constexpr (!ispointer &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] ^ *vvec.vals[i]; } \
-        else if constexpr (ispointer  && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] ^  vvec.vals[i]; } \
-        else if constexpr (ispointer  &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] ^ *vvec.vals[i]; } \
-        return nvec; \
-    } \
-    template<typename TT, bool _ispointer> tvec<PureType, size, type> operator<<(const tvec<TT, size, type, _ispointer>& vvec) const \
-    { \
-        tvec<PureType, size, type> nvec; \
-        if      constexpr (!ispointer && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] <<  vvec.vals[i]; } \
-        else if constexpr (!ispointer &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] << *vvec.vals[i]; } \
-        else if constexpr (ispointer  && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] <<  vvec.vals[i]; } \
-        else if constexpr (ispointer  &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] << *vvec.vals[i]; } \
-        return nvec; \
-    } \
-    template<typename TT, bool _ispointer> tvec<PureType, size, type> operator>>(const tvec<TT, size, type, _ispointer>& vvec) const \
-    { \
-        tvec<PureType, size, type> nvec; \
-        if      constexpr (!ispointer && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] >>  vvec.vals[i]; } \
-        else if constexpr (!ispointer &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] =  vals[i] >> *vvec.vals[i]; } \
-        else if constexpr (ispointer  && !_ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] >>  vvec.vals[i]; } \
-        else if constexpr (ispointer  &&  _ispointer) { for(unsigned int i = 0; i < size; i++) nvec.vals[i] = *vals[i] >> *vvec.vals[i]; } \
-        return nvec; \
-    } \
-    template<typename TT, unsigned int SS>  \
-    void operator=(const tvec<TT, SS, type>& vvec)         { for(unsigned int i = 0; i < (size < SS ? size : SS); i++) vals[i] = (T)vvec.vals[i]; } \
-    /*void    operator=(tvec<T, size, type> vvec)        { for(unsigned int i = 0; i < size; i++) vals[i] = vvec.vals[i]; }*/ \
+    template<typename TT> tvec<T, size, type> operator/ (const TT& f) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] /  (T)f; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator* (const TT& f) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] *  (T)f; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator+ (const TT& f) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] +  (T)f; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator- (const TT& f) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] -  (T)f; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator^ (const TT& f) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] ^  (T)f; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator<<(const TT& f) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] << (T)f; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator>>(const TT& f) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = vals[i] >> (T)f; return nvec; } \
+    template<typename TT> tvec<T, size, type> operator+ (const tvec<TT, size, type>& vvec) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = (T)(vals[i] +  vvec.vals[i]); return nvec; } \
+    template<typename TT> tvec<T, size, type> operator- (const tvec<TT, size, type>& vvec) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = (T)(vals[i] -  vvec.vals[i]); return nvec; } \
+    template<typename TT> tvec<T, size, type> operator/ (const tvec<TT, size, type>& vvec) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = (T)(vals[i] /  vvec.vals[i]); return nvec; } \
+    template<typename TT> tvec<T, size, type> operator* (const tvec<TT, size, type>& vvec) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = (T)(vals[i] *  vvec.vals[i]); return nvec; } \
+    template<typename TT> tvec<T, size, type> operator^ (const tvec<TT, size, type>& vvec) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = (T)(vals[i] ^  vvec.vals[i]); return nvec; } \
+    template<typename TT> tvec<T, size, type> operator<<(const tvec<TT, size, type>& vvec) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = (T)(vals[i] << vvec.vals[i]); return nvec; } \
+    template<typename TT> tvec<T, size, type> operator>>(const tvec<TT, size, type>& vvec) const { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = (T)(vals[i] >> vvec.vals[i]); return nvec; } \
+    template<typename TT, unsigned int SS> void operator=(const tvec<TT, SS, type>& vvec) { for(unsigned int i = 0; i < (size < SS ? size : SS); i++) vals[i] = (T)vvec.vals[i]; } \
+    /*void    operator=(tvec<T, size, type> vvec)  { for(unsigned int i = 0; i < size; i++) vals[i] = vvec.vals[i]; }*/ \
     \
-    tvec<T, size, type> operator-()                { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = -vals[i];               return nvec; } \
-    const tvec<T, size, type>& operator-() const          { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = -vals[i];               return nvec; } \
-    PureType& operator[](unsigned int& index)             { if constexpr (!ispointer) return vals[index]; else return *vals[index]; } \
-    const PureType& operator[](unsigned int& index) const { if constexpr (!ispointer) return vals[index]; else return *vals[index]; } \
-    const PureType& at(unsigned int index) const          { if constexpr (!ispointer) return vals[index]; else return *vals[index]; }
+    tvec<T, size, type> operator-()                { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = -vals[i]; return nvec; } \
+    const tvec<T, size, type>& operator-() const   { tvec<T, size, type> nvec; for(unsigned int i = 0; i < size; i++) nvec.vals[i] = -vals[i]; return nvec; } \
+    T& operator[](unsigned int& index)             { return vals[index]; } \
+    const T& operator[](unsigned int& index) const { return vals[index]; } \
+    const T& at(unsigned int index) const          { return vals[index]; }
     /*std::ostream& operator<<(std::ostream& os, const T& obj) { return os << obj.toString(); }*/
 
-#define VEC_TEMPLATE_DATA_FUNC(size, type, ispointer) \
-    PureType* data() \
+#define VEC_TEMPLATE_DATA_FUNC(size, type) \
+    T* data() \
     { \
-        if constexpr (ispointer) \
-            return vals[0]; \
-        else \
-            return &vals[0]; \
+      return &vals[0]; \
     }
 
 
-#define VEC_TEMPLATE_LENGTH_FUNC(size, type, ispointer) \
-    PureType length() \
+#define VEC_TEMPLATE_LENGTH_FUNC(size, type) \
+    T length() \
     { \
-        PureType sum = 0; \
-        if constexpr (!ispointer) \
-            for(unsigned int i = 0; i < size; i++) \
-                sum += vals[i] * vals[i]; \
-        else \
-            for(unsigned int i = 0; i < size; i++) \
-                sum += *vals[i] * *vals[i]; \
+        T sum = 0; \
+        for(unsigned int i = 0; i < size; i++) \
+            sum += vals[i] * vals[i]; \
         return (float)::sqrt(sum); \
     }
 
 #define VEC_TEMPLATE_ABS_FUNC(size, type) \
-    template<typename TT, bool _ispointer> \
-    static tvec<PureType, size, type> abs(tvec<TT, size, type, _ispointer> vvec) \
+    template<typename TT> \
+    static tvec<T, size, type> abs(tvec<TT, size, type> vvec) \
     { \
-        tvec<PureType, size, type> ret; \
-        if constexpr (!_ispointer) \
-            for(unsigned int i = 0; i < size; i++) \
-                ret[i] = std::abs(vvec.vals[i]); \
-        else \
-            for(unsigned int i = 0; i < size; i++) \
-                ret[i] = std::abs(*vvec.vals[i]); \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = std::abs(vvec.vals[i]); \
         return ret; \
     }
 
 #define VEC_TEMPLATE_POW_FUNC(size, type) \
-    template<typename TT, bool _ispointer> \
-    static tvec<PureType, size, type> pow(tvec<TT, size, type, _ispointer> a, const float& p) \
+    template<typename TT> \
+    static tvec<T, size, type> pow(tvec<TT, size, type> a, const float& p) \
     { \
-        tvec<PureType, size, type> ret; \
-        if constexpr (!_ispointer) \
-            for(unsigned int i = 0; i < size; i++) \
-                ret[i] = std::pow(a.vals[i], p); \
-        else \
-            for(unsigned int i = 0; i < size; i++) \
-                ret[i] = std::pow(*a.vals[i], p); \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = std::pow(a.vals[i], p); \
         return ret; \
     }
 
 #define VEC_TEMPLATE_DEG_FUNC(size, type) \
-    template<typename TT, bool _ispointer> \
-    static tvec<PureType, size, type> deg(tvec<TT, size, type, _ispointer> vvec) \
+    template<typename TT> \
+    static tvec<T, size, type> deg(tvec<TT, size, type> vvec) \
     { \
-        tvec<PureType, size, type> ret; \
-        if constexpr (!_ispointer) \
-            for(unsigned int i = 0; i < size; i++) \
-                ret[i] = (vvec.vals[i] * (PureType)180.0) / GUM_PI; \
-        else \
-            for(unsigned int i = 0; i < size; i++) \
-                ret[i] = (*vvec.vals[i] * (PureType)180.0) / GUM_PI; \
+        tvec<T, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+            ret[i] = (vvec.vals[i] * (T)180.0) / GUM_PI; \
         return ret; \
     }
 
 #define VEC_TEMPLATE_MOD_FUNC(size, type) \
     template<typename TT, typename TTT> \
-    static tvec<PureType, size, type> mod(tvec<TT, size, type> a, tvec<TTT, size, type> b) \
+    static tvec<T, size, type> mod(tvec<TT, size, type> a, tvec<TTT, size, type> b) \
     { \
-        tvec<PureType, size, type> ret; \
+        tvec<T, size, type> ret; \
         for(unsigned int i = 0; i < size; i++) \
-        { \
             ret[i] = a[i] - b[i] * std::floor(a[i] / b[i]); \
-        } \
         return ret; \
     }
 //ret[i] = std::fmod(vvec.vals[i], vvec2.vals[i]);
@@ -257,23 +138,21 @@
 
 #define VEC_TEMPLATE_STEP_FUNC(size, type) \
     template<typename TT, typename TTT> \
-    static tvec<PureType, size, type> step(tvec<TT, size, type> edge, tvec<TTT, size, type> x) \
+    static tvec<T, size, type> step(tvec<TT, size, type> edge, tvec<TTT, size, type> x) \
     { \
-        tvec<PureType, size, type> ret; \
+        tvec<T, size, type> ret; \
         for(unsigned int i = 0; i < size; i++) \
-        { \
-            ret[i] = x[i] < edge[i] ? (PureType)0.0 : (PureType)1.0; \
-        } \
+            ret[i] = x[i] < edge[i] ? (T)0.0 : (T)1.0; \
         return ret; \
     }
 
 #define VEC_TEMPLATE_RAD_FUNC(size, type) \
     template<typename TT> \
-    static tvec<PureType, size, type> rad(tvec<TT, size, type> vvec) \
+    static tvec<T, size, type> rad(tvec<TT, size, type> vvec) \
     { \
-        tvec<PureType, size, type> ret; \
+        tvec<T, size, type> ret; \
         for(unsigned int i = 0; i < size; i++) \
-            ret[i] = vvec.vals[i] * GUM_PI / (PureType)180.0; \
+            ret[i] = vvec.vals[i] * (T)GUM_PI / (T)180.0; \
         return ret; \
     }
 
@@ -462,37 +341,28 @@
         return (a - b).length();  \
     }
 
-#define VEC_TEMPLATE_TO_STRING_FUNC(size, type, ispointer, name) \
+#define VEC_TEMPLATE_TO_STRING_FUNC(size, type, name) \
     std::string toString(std::string prefix = std::string(name) + "(", std::string suffix = ")", std::string delimiter = ", ", const unsigned short& precision = 2) const \
     { \
         std::string str = prefix; \
-        if constexpr (ispointer) \
-        { \
-            for(unsigned int i = 0; i < size; i++) \
-                str += Gum::Maths::numToString(*vals[i], precision) + delimiter; \
-        } \
-        else \
-        { \
-            for(unsigned int i = 0; i < size; i++) \
-                str += Gum::Maths::numToString(vals[i], precision) + delimiter; \
-        } \
+        for(unsigned int i = 0; i < size; i++) \
+            str += Gum::Maths::numToString(vals[i], precision) + delimiter; \
         str = str.substr(0, str.length() - delimiter.length()); \
         str += suffix; \
         return str; \
     } \
     operator std::string() const { return toString(); }
 
-#define VEC_TEMPLATE(size, name, type, ispointer, ...) \
-    typedef std::remove_pointer_t<T> PureType; \
+#define VEC_TEMPLATE(size, name, type, ...) \
     union { \
         T vals[size] = {0}; \
         __VA_ARGS__; \
     }; \
     \
     VEC_TEMPLATE_CONSTRUCTORS(size, type) \
-    VEC_TEMPLATE_OPERATORS(size, type, ispointer) \
-    VEC_TEMPLATE_DATA_FUNC(size, type, ispointer) \
-    VEC_TEMPLATE_LENGTH_FUNC(size, type, ispointer) \
+    VEC_TEMPLATE_OPERATORS(size, type) \
+    VEC_TEMPLATE_DATA_FUNC(size, type) \
+    VEC_TEMPLATE_LENGTH_FUNC(size, type) \
     VEC_TEMPLATE_ABS_FUNC(size, type) \
     VEC_TEMPLATE_STEP_FUNC(size, type) \
     VEC_TEMPLATE_POW_FUNC(size, type) \
@@ -506,7 +376,7 @@
     VEC_TEMPLATE_MOD_FUNC(size, type) \
     VEC_TEMPLATE_DISTANCE_FUNC(size, type) \
     VEC_TEMPLATE_COMPARE_SIGNS_FUNC(size, type) \
-    VEC_TEMPLATE_TO_STRING_FUNC(size, type, ispointer, name) \
+    VEC_TEMPLATE_TO_STRING_FUNC(size, type, name) \
     VEC_TEMPLATE_RANDOM_FUNC(size, type) \
     VEC_TEMPLATE_FRACT_FUNC(size, type) \
     VEC_TEMPLATE_FLOOR_FUNC(size, type) \
@@ -523,48 +393,48 @@
         return size; \
     }
 
-template<typename T, unsigned int S, unsigned int type = 0U, bool ispointer = std::is_pointer<T>::value>
+template<typename T, unsigned int S, unsigned int type = 0U>
 struct tvec
 {
-    VEC_TEMPLATE(S, "vec" + std::to_string(S), type, ispointer, struct{ T x; }; struct{ T r; }; struct{ T s; });
+    VEC_TEMPLATE(S, "vec" + std::to_string(S), type, struct{ T x; }; struct{ T r; }; struct{ T s; });
 };
 
-template<typename T, bool ispointer>
-struct tvec<T, 2, 0U, ispointer>
+template<typename T>
+struct tvec<T, 2, 0U>
 {
-    VEC_TEMPLATE(2, "vec2", 0U, ispointer, struct{ T x, y; }; struct{ T r, g; }; struct{ T s, t; });
+    VEC_TEMPLATE(2, "vec2", 0U, struct{ T x, y; }; struct{ T r, g; }; struct{ T s, t; });
 };
-template<typename T, bool ispointer>
-struct tvec<T, 3, 0U, ispointer>
+template<typename T>
+struct tvec<T, 3, 0U>
 {
-    VEC_TEMPLATE(3, "vec3", 0U, ispointer, struct{ T x, y, z; }; struct{ T r, g, b; }; struct{ T s, t, p; });
+    VEC_TEMPLATE(3, "vec3", 0U, struct{ T x, y, z; }; struct{ T r, g, b; }; struct{ T s, t, p; });
 };
-template<typename T, bool ispointer>
-struct tvec<T, 4, 0U, ispointer>
+template<typename T>
+struct tvec<T, 4, 0U>
 {
-    VEC_TEMPLATE(4, "vec4", 0U, ispointer, struct{ T x, y, z, w; }; struct{ T r, g, b, a; }; struct{ T s, t, p, q; });
-};
-
-template<typename T, bool ispointer>
-struct tvec<T, 3, 1U, ispointer>
-{
-    VEC_TEMPLATE(3, "rgb", 1U, ispointer, struct{ T r, g, b; });
-};
-template<typename T, bool ispointer>
-struct tvec<T, 4, 1U, ispointer>
-{
-    VEC_TEMPLATE(4, "rgba", 1U, ispointer, struct{ T r, g, b, a; });
+    VEC_TEMPLATE(4, "vec4", 0U, struct{ T x, y, z, w; }; struct{ T r, g, b, a; }; struct{ T s, t, p, q; });
 };
 
-template<typename T, bool ispointer>
-struct tvec<T, 3, 2U, ispointer>
+template<typename T>
+struct tvec<T, 3, 1U>
 {
-    VEC_TEMPLATE(3, "hsv", 2U, ispointer, struct{ T h, s, v; });
+    VEC_TEMPLATE(3, "rgb", 1U, struct{ T r, g, b; });
 };
-template<typename T, bool ispointer>
-struct tvec<T, 4, 2U, ispointer>
+template<typename T>
+struct tvec<T, 4, 1U>
 {
-    VEC_TEMPLATE(4, "hsva", 2U, ispointer, struct{ T h, s, v, a; });
+    VEC_TEMPLATE(4, "rgba", 1U, struct{ T r, g, b, a; });
+};
+
+template<typename T>
+struct tvec<T, 3, 2U>
+{
+    VEC_TEMPLATE(3, "hsv", 2U, struct{ T h, s, v; });
+};
+template<typename T>
+struct tvec<T, 4, 2U>
+{
+    VEC_TEMPLATE(4, "hsva", 2U, struct{ T h, s, v, a; });
 };
 
 

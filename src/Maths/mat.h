@@ -1,6 +1,5 @@
 #pragma once
 #include "vec.h"
-#include "GumMathsClass.h"
 #include <iostream>
 #include <string>
 

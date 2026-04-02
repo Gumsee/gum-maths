@@ -1,11 +1,12 @@
 #include "Maths.h"
 #include <math.h>
+#include "Constants.h"
 
 namespace Gum {
 namespace Maths
 {
-    float toRadians(float deg)                { return deg * PI / 180; }
-    float toDegree(float rad)                 { return rad * 180 / PI; }
+    float toRadians(float deg)                { return deg * (float)GUM_PI / 180.0f; }
+    float toDegree(float rad)                 { return rad * 180.0f / (float)GUM_PI; }
     float sindeg(float deg)                   { return (float)sin(toRadians(deg)); }
     float cosdeg(float deg)                   { return (float)cos(toRadians(deg)); }
     float tandeg(float deg)                   { return (float)tan(toRadians(deg)); }
@@ -21,9 +22,9 @@ namespace Maths
             ret *= i;
         return ret;
     }
-    double binomialCoeff(int n, int k) 
+    long binomialCoeff(int n, int k) 
     { 
-        return (double)factorial(n) / (double)(factorial(k) * factorial(n-k)); 
+        return factorial(n) / (factorial(k) * factorial(n-k)); 
     }
 
     float randf(float from, float to)
