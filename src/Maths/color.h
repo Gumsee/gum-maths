@@ -5,7 +5,7 @@
 class color : public rgba
 {
 public:
-    using rgba::rgba;
+    color() : rgba() {}
     color(rgba col) : rgba(col) {}
     color(hsva col)             { setHSVA(col); }
     color(std::string hex)      { setHEX(hex); }

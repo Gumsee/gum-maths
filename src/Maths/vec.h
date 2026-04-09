@@ -216,25 +216,21 @@
 
 #define VEC_TEMPLATE_MIN_FUNC(size, type) \
     template<typename TT>  \
-    static tvec<T, size, type> min(tvec<TT, size, type> a, tvec<TT, size, type> b) \
+    static tvec<T, size, type> min(const tvec<TT, size, type>& a, const tvec<TT, size, type>& b) \
     {  \
         tvec<T, size, type> ret; \
         for(unsigned int i = 0; i < size; i++) \
-        { \
             ret[i] = a[i] < b[i] ? a[i] : b[i]; \
-        } \
         return ret; \
     }
 
 #define VEC_TEMPLATE_MAX_FUNC(size, type) \
     template<typename TT>  \
-    static tvec<T, size, type> max(tvec<TT, size, type> a, tvec<TT, size, type> b) \
+    static tvec<T, size, type> max(const tvec<TT, size, type>& a, const tvec<TT, size, type>& b) \
     {  \
         tvec<T, size, type> ret; \
         for(unsigned int i = 0; i < size; i++) \
-        { \
             ret[i] = a[i] > b[i] ? a[i] : b[i]; \
-        } \
         return ret; \
     }
 
@@ -396,45 +392,45 @@
 template<typename T, unsigned int S, unsigned int type = 0U>
 struct tvec
 {
-    VEC_TEMPLATE(S, "vec" + std::to_string(S), type, struct{ T x; }; struct{ T r; }; struct{ T s; });
+  VEC_TEMPLATE(S, "vec" + std::to_string(S), type, struct{ T x; }; struct{ T r; }; struct{ T s; });
 };
 
 template<typename T>
 struct tvec<T, 2, 0U>
 {
-    VEC_TEMPLATE(2, "vec2", 0U, struct{ T x, y; }; struct{ T r, g; }; struct{ T s, t; });
+  VEC_TEMPLATE(2, "vec2", 0U, struct{ T x, y; }; struct{ T r, g; }; struct{ T s, t; });
 };
 template<typename T>
 struct tvec<T, 3, 0U>
 {
-    VEC_TEMPLATE(3, "vec3", 0U, struct{ T x, y, z; }; struct{ T r, g, b; }; struct{ T s, t, p; });
+  VEC_TEMPLATE(3, "vec3", 0U, struct{ T x, y, z; }; struct{ T r, g, b; }; struct{ T s, t, p; });
 };
 template<typename T>
 struct tvec<T, 4, 0U>
 {
-    VEC_TEMPLATE(4, "vec4", 0U, struct{ T x, y, z, w; }; struct{ T r, g, b, a; }; struct{ T s, t, p, q; });
+  VEC_TEMPLATE(4, "vec4", 0U, struct{ T x, y, z, w; }; struct{ T r, g, b, a; }; struct{ T s, t, p, q; });
 };
 
 template<typename T>
 struct tvec<T, 3, 1U>
 {
-    VEC_TEMPLATE(3, "rgb", 1U, struct{ T r, g, b; });
+  VEC_TEMPLATE(3, "rgb", 1U, struct{ T r, g, b; });
 };
 template<typename T>
 struct tvec<T, 4, 1U>
 {
-    VEC_TEMPLATE(4, "rgba", 1U, struct{ T r, g, b, a; });
+  VEC_TEMPLATE(4, "rgba", 1U, struct{ T r, g, b, a; });
 };
 
 template<typename T>
 struct tvec<T, 3, 2U>
 {
-    VEC_TEMPLATE(3, "hsv", 2U, struct{ T h, s, v; });
+  VEC_TEMPLATE(3, "hsv", 2U, struct{ T h, s, v; });
 };
 template<typename T>
 struct tvec<T, 4, 2U>
 {
-    VEC_TEMPLATE(4, "hsva", 2U, struct{ T h, s, v, a; });
+  VEC_TEMPLATE(4, "hsva", 2U, struct{ T h, s, v, a; });
 };
 
 
