@@ -28,13 +28,5 @@ int main(int argc, char** argv)
 
 	std::cout << "sizeof(vec3): " << sizeof(vec3) << std::endl << std::endl;
 
-	tvec<float*, 3> pointervec;
-	pointervec.x = new float(2);
-	pointervec.y = new float(2);
-	pointervec.z = new float(2);
-
-	pointervec += vec3_1;
-	std::cout << "Pointer vector3: " << pointervec.toString() << " " << (pointervec + vec3_2).toString() << std::endl;
-
 	return 0;
 };

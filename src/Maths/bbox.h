@@ -1,5 +1,6 @@
 #pragma once
 #include "vec.h"
+#include <limits>
 
 template<typename T, int S>
 struct tbbox
@@ -7,21 +8,21 @@ struct tbbox
     tvec<T, S> pos, size;
     tbbox()
     {
-        this->pos = tvec<T, S>(0);
-        this->size = tvec<T, S>(0);
+      this->pos = tvec<T, S>(std::numeric_limits<T>::lowest());
+      this->size = tvec<T, S>(std::numeric_limits<T>::max());
     }
 
     tbbox(tvec<T, S> pos, tvec<T, S> size)
     {
-        this->pos = pos;
-        this->size = size;
+      this->pos = pos;
+      this->size = size;
     }
 
     tvec<T, S> getPos()  { return pos; }
     tvec<T, S> getSize() { return size; }
     tvec<T, S> getDimensions() 
     { 
-        return tvec<T, S>::abs(pos) + tvec<T, S>::abs(size); 
+      return tvec<T, S>::abs(pos) + tvec<T, S>::abs(size); 
     }
 
 

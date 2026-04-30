@@ -168,6 +168,18 @@
             else                  { ret[i] = vvec.vals[i]; } \
         } \
         return ret; \
+    } \
+    template<typename TT> \
+    static tvec<T, size, type> clamp(tvec<TT, size, type> vvec, tvec<TT, size, type> min, tvec<TT, size, type> max) \
+    { \
+        tvec<TT, size, type> ret; \
+        for(unsigned int i = 0; i < size; i++) \
+        { \
+            if     (vvec.vals[i] < min[i]) { ret[i] = min[i]; }  \
+            else if(vvec.vals[i] > max[i]) { ret[i] = max[i]; }  \
+            else                           { ret[i] = vvec.vals[i]; } \
+        } \
+        return ret; \
     }
 
 #define VEC_TEMPLATE_COMPARE_SIGNS_FUNC(size, type) \

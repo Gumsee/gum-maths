@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 	std::cout << "# Color Conversion Testing:" << std::endl;
 	std::cout << "#" << std::endl;
 
-	color cColor(255, 45, 77, 255);
+	color cColor(rgba(255, 45, 77, 255));
 	std::cout << "rgba(255, 45, 77, 255):" << std::endl;
 	std::cout << "  RGB: " << cColor.getRGBA().toString() << std::endl;
 	std::cout << "  HSV: " << cColor.getHSVA().toString() << std::endl;
